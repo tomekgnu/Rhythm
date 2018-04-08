@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 
 
-public class RhythmCellRenderer
+public class CustomCellRenderer
        extends DefaultTableCellRenderer {
   @Override
   public Component getTableCellRendererComponent(JTable table,
@@ -25,14 +25,17 @@ public class RhythmCellRenderer
                                                  boolean hasFocus,
                                                  int row,
                                                  int column) {
-    Component c = 
-      super.getTableCellRendererComponent(table, value,
+    
+    Component c = super.getTableCellRendererComponent(table, value,
                                           isSelected, hasFocus,
                                           row, column);
 
     
     if(table.getValueAt(row, column)!= null){
-        c.setBackground(Color.red);       
+        if(table.getName().equals("patternTable"))
+            c.setBackground(Color.red);
+        else if(table.getName().equals("sequenceTable"))
+            c.setBackground(Color.green);
         
     }
     else

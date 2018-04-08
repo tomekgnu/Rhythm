@@ -14,7 +14,7 @@ public class MainClass {
 	static BufferedReader br;
 	static FileInputStream is;
 	static FileOutputStream fos;
-	public static void mainFunction(String[] args) {
+	public static void main(String[] args) {
 		
 		
 		try {

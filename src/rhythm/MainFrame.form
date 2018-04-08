@@ -54,6 +54,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -128,40 +131,35 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="drumPatternLabel" min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="patternScrollPane" min="-2" pref="105" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="patternScrollPane" min="-2" pref="88" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="instrumentComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="beatLabel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                      <Component id="instrumentLabel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                                      <Component id="selectPatternLabel" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="timeLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                          <Component id="resolutionLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                          <Component id="resolutionComboBox" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                          <Component id="timeSpinner" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                          <Component id="savePatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="currentPatternComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="instrumentComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="beatLabel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="instrumentLabel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                              <Component id="selectPatternLabel" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="timeLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                  <Component id="resolutionLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                  <Component id="resolutionComboBox" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                  <Component id="timeSpinner" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="savePatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="currentPatternComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                               <Component id="beatUpperNumber" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="beatSeparator" min="-2" pref="2" max="-2" attributes="0"/>
@@ -169,14 +167,14 @@
                               <Component id="beatLowerNumber" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="22" max="32767" attributes="0"/>
+                      <EmptySpace pref="15" max="32767" attributes="0"/>
                       <Component id="paneSeparator" min="-2" pref="0" max="-2" attributes="0"/>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Component id="sequenceScrollPane" min="-2" pref="88" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="358" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="244" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
                       <Component id="saveSequenceButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -206,7 +204,7 @@
               </Border>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="32" rowCount="4">
+              <Table columnCount="32" rowCount="5">
                 <Column editable="true" title="Title 1" type="java.lang.Object"/>
                 <Column editable="true" title="Title 2" type="java.lang.Object"/>
                 <Column editable="true" title="Title 3" type="java.lang.Object"/>
@@ -409,6 +407,7 @@
             <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="patternTable" noResource="true"/>
             <Property name="opaque" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rowHeight" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="rhythmTable.setRowSelectionAllowed(false);&#xa;rhythmTable.setColumnSelectionAllowed(false);&#xa;rhythmTable.setCellSelectionEnabled(false);&#xa;rhythmTable.setShowHorizontalLines(true);&#xa;rhythmTable.setShowVerticalLines(true);">
@@ -425,7 +424,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="rhythmTable.setShowGrid(true);&#xa;rhythmTable.setDefaultRenderer(Object.class, new RhythmCellRenderer());&#xa;rhythmTable.setDefaultEditor(Object.class, null);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="rhythmTable.setShowGrid(true);&#xa;rhythmTable.setDefaultRenderer(Object.class, new rhythm.CustomCellRenderer());&#xa;rhythmTable.setDefaultEditor(Object.class, null);"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -533,14 +532,18 @@
             <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
+            <Property name="name" type="java.lang.String" value="sequenceTable" noResource="true"/>
             <Property name="opaque" type="boolean" value="false"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="null" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sequenceTableMouseClicked"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="sequenceTable.setTableHeader(null);&#xa;sequenceTable.setShowGrid(true);&#xa;sequenceTable.setColumnSelectionAllowed(false);&#xa;sequenceTable.setRowSelectionAllowed(false);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="sequenceTable.setTableHeader(null);&#xa;sequenceTable.setShowGrid(true);&#xa;sequenceTable.setColumnSelectionAllowed(false);&#xa;sequenceTable.setRowSelectionAllowed(false);&#xa;sequenceTable.setDefaultRenderer(Object.class, new rhythm.CustomCellRenderer());&#xa;rhythmTable.setDefaultEditor(Object.class, null);"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -567,6 +570,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Save sequence"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveSequenceButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="selectPatternLabel">
       <Properties>

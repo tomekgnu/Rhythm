@@ -13,14 +13,13 @@ import javax.persistence.Embeddable;
  * @author Tomek
  */
 @Embeddable
-public class PatternPK implements Serializable {
+public class SequencePK implements Serializable {
 
-    private int id;
-    
-    public PatternPK() {
+   private int id;
+   
+    public SequencePK() {
     }
 
-   
     @Override
     public int hashCode() {
         int hash = 0;
@@ -30,10 +29,10 @@ public class PatternPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PatternPK)) {
+        if (!(object instanceof SequencePK)) {
             return false;
         }
-        PatternPK other = (PatternPK) object;
+        SequencePK other = (SequencePK) object;
         return true;
     }
 

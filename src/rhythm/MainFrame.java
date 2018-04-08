@@ -7,6 +7,12 @@ package rhythm;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -14,12 +20,14 @@ import javax.swing.table.TableCellRenderer;
  * @author Tomek
  */
 public class MainFrame extends javax.swing.JFrame {
-
+    static EntityManagerFactory emf;
+    static EntityManager em;
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        
         
     }
 
@@ -62,15 +70,21 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         setForeground(new java.awt.Color(0, 0, 0));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         patternScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         rhythmTable.setShowGrid(true);
-        rhythmTable.setDefaultRenderer(Object.class, new RhythmCellRenderer());
+        rhythmTable.setDefaultRenderer(Object.class, new rhythm.CustomCellRenderer());
         rhythmTable.setDefaultEditor(Object.class, null);
         rhythmTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         rhythmTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -82,6 +96,7 @@ public class MainFrame extends javax.swing.JFrame {
         ));
         rhythmTable.setFocusable(false);
         rhythmTable.setGridColor(new java.awt.Color(0, 0, 0));
+        rhythmTable.setName("patternTable"); // NOI18N
         rhythmTable.setOpaque(false);
         rhythmTable.setRequestFocusEnabled(false);
         rhythmTable.setRowHeight(20);
@@ -124,6 +139,8 @@ public class MainFrame extends javax.swing.JFrame {
         sequenceTable.setShowGrid(true);
         sequenceTable.setColumnSelectionAllowed(false);
         sequenceTable.setRowSelectionAllowed(false);
+        sequenceTable.setDefaultRenderer(Object.class, new rhythm.CustomCellRenderer());
+        rhythmTable.setDefaultEditor(Object.class, null);
         sequenceTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         sequenceTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -138,8 +155,14 @@ public class MainFrame extends javax.swing.JFrame {
         ));
         sequenceTable.setAutoscrolls(false);
         sequenceTable.setGridColor(new java.awt.Color(0, 0, 0));
+        sequenceTable.setName("sequenceTable"); // NOI18N
         sequenceTable.setOpaque(false);
         sequenceTable.setTableHeader(null);
+        sequenceTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sequenceTableMouseClicked(evt);
+            }
+        });
         sequenceScrollPane.setViewportView(sequenceTable);
 
         savePatternButton.setText("Save pattern");
@@ -150,6 +173,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         saveSequenceButton.setText("Save sequence");
+        saveSequenceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveSequenceButtonActionPerformed(evt);
+            }
+        });
 
         selectPatternLabel.setText("Select pattern");
 
@@ -239,45 +267,42 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(drumPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(patternScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(patternScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(28, 28, 28)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(instrumentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(beatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(instrumentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(selectPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(22, 22, 22)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(resolutionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(resolutionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(timeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(savePatternButton)
-                                            .addComponent(currentPatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(instrumentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(beatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(instrumentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(selectPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(resolutionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(resolutionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(timeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(savePatternButton)
+                                    .addComponent(currentPatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
                                 .addComponent(beatUpperNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(beatSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(beatLowerNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addComponent(paneSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(sequenceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(358, 358, 358))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(244, 244, 244)
+                        .addGap(133, 133, 133)
                         .addComponent(saveSequenceButton)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -312,13 +337,42 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_rhythmTableMouseClicked
 
     private void savePatternButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePatternButtonActionPerformed
-        // TODO add your handling code here:
+        Pattern p = new Pattern();
+        p.setPatternPK(new PatternPK());
+        p.setBeats(1);
+        em.getTransaction().begin();
+        em.persist(p);        
+        em.getTransaction().commit();
     }//GEN-LAST:event_savePatternButtonActionPerformed
+
+    private void saveSequenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSequenceButtonActionPerformed
+        Sequence s = new Sequence();
+        s.setSequencePK(new SequencePK());
+        s.setPatternID(1);
+        em.getTransaction().begin();
+        em.persist(s);
+        em.getTransaction().commit();
+    }//GEN-LAST:event_saveSequenceButtonActionPerformed
+
+    private void sequenceTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sequenceTableMouseClicked
+        String value = (String)sequenceTable.getValueAt(sequenceTable.getSelectedRow(), sequenceTable.getSelectedColumn());
+        if(value == null)
+            sequenceTable.setValueAt("", sequenceTable.getSelectedRow(), sequenceTable.getSelectedColumn());
+        else
+            sequenceTable.setValueAt(null, sequenceTable.getSelectedRow(), sequenceTable.getSelectedColumn());
+    }//GEN-LAST:event_sequenceTableMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        emf = Persistence.createEntityManagerFactory("RhythmPU");
+        em = emf.createEntityManager();
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -347,9 +401,20 @@ public class MainFrame extends javax.swing.JFrame {
             public void run() {
                 new MainFrame().setVisible(true);
             }
+            
         });
+        
+        
+        
     }
-
+    
+    // window closing handler
+        WindowListener wl = new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+                em.close();
+                emf.close();
+            }
+        };
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel beatLabel;
     private javax.swing.JComboBox<String> beatLowerNumber;

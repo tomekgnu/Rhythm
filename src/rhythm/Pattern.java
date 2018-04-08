@@ -9,9 +9,11 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -22,19 +24,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Pattern")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Pattern_1.findAll", query = "SELECT p FROM Pattern_1 p")
-    , @NamedQuery(name = "Pattern_1.findById", query = "SELECT p FROM Pattern_1 p WHERE p.id = :id")
-    , @NamedQuery(name = "Pattern_1.findByBeats", query = "SELECT p FROM Pattern_1 p WHERE p.beats = :beats")
-    , @NamedQuery(name = "Pattern_1.findByDivision", query = "SELECT p FROM Pattern_1 p WHERE p.division = :division")
-    , @NamedQuery(name = "Pattern_1.findByResolution", query = "SELECT p FROM Pattern_1 p WHERE p.resolution = :resolution")
-    , @NamedQuery(name = "Pattern_1.findByDuration", query = "SELECT p FROM Pattern_1 p WHERE p.duration = :duration")
-    , @NamedQuery(name = "Pattern_1.findByData", query = "SELECT p FROM Pattern_1 p WHERE p.data = :data")})
+    @NamedQuery(name = "Pattern.findAll", query = "SELECT p FROM Pattern p")
+    , @NamedQuery(name = "Pattern.findById", query = "SELECT p FROM Pattern p WHERE p.id = :id")
+    , @NamedQuery(name = "Pattern.findByBeats", query = "SELECT p FROM Pattern p WHERE p.beats = :beats")
+    , @NamedQuery(name = "Pattern.findByDivision", query = "SELECT p FROM Pattern p WHERE p.division = :division")
+    , @NamedQuery(name = "Pattern.findByResolution", query = "SELECT p FROM Pattern p WHERE p.resolution = :resolution")
+    , @NamedQuery(name = "Pattern.findByDuration", query = "SELECT p FROM Pattern p WHERE p.duration = :duration")
+    , @NamedQuery(name = "Pattern.findByData", query = "SELECT p FROM Pattern p WHERE p.data = :data")})
 public class Pattern implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PatternPK patternPK;
-    @Column(name = "ID")
+    @GeneratedValue(generator="sqlite_pattern")
+    @TableGenerator(name="sqlite_pattern", table="sqlite_sequence",
+    pkColumnName="name", valueColumnName="seq",pkColumnValue="Pattern",allocationSize = 1,initialValue = 1)
+    @Column(name = "ID")    
     private Integer id;
     @Column(name = "Beats")
     private Integer beats;
@@ -132,7 +137,7 @@ public class Pattern implements Serializable {
 
     @Override
     public String toString() {
-        return "rhythm.Pattern_1[ patternPK=" + patternPK + " ]";
+        return "rhythm.Pattern[ patternPK=" + patternPK + " ]";
     }
     
 }
