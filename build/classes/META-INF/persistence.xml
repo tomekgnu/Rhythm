@@ -5,7 +5,7 @@
     <class>rhythm.Pattern</class>
     <class>rhythm.Sequence</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:\Users\Tomek\eclipse-workspace\Rhythm\demo.sqlite3"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:\Users\Tomek\workspace\Rhythm\demo.sqlite3"/>
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
       <property name="javax.persistence.jdbc.password" value=""/>
