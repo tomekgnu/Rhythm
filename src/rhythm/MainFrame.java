@@ -20,14 +20,17 @@ import javax.swing.table.TableCellRenderer;
  * @author Tomek
  */
 public class MainFrame extends javax.swing.JFrame {
-    static EntityManagerFactory emf;
-    static EntityManager em;
+    private EntityManagerFactory emf;
+    private EntityManager em;
+    private boolean UsbResult;
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
+        emf = Persistence.createEntityManagerFactory("RhythmPU");
+        em = emf.createEntityManager();
         initComponents();
-        
+        UsbResult = UsbWriter.init("COM8","Rhythm");
         
     }
 
@@ -115,7 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         patternScrollPane.setViewportView(rhythmTable);
 
-        instrumentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bass drum", "Snare", "Mid-tom", "Low-tom", "High-tom", "Hihat" }));
+        instrumentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(DrumSet.displayValues()));
 
         beatSeparator.setBackground(new java.awt.Color(0, 0, 0));
         beatSeparator.setForeground(new java.awt.Color(0, 0, 0));
@@ -319,8 +322,30 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void rhythmTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rhythmTableMouseClicked
-        // TODO add your handling code here:
+//        L_HAND	row 0
+//        R_HAND	row 1
+//        L_FOOT	row 2
+//        R_FOOT	row 3
+//        BASS          row 4
+        
+        int row = rhythmTable.getSelectedRow();
+        int col = rhythmTable.getSelectedColumn();
+        int index = instrumentComboBox.getSelectedIndex();
+                
+        switch(DrumSet.getObject(index)){
+            case ACOUSTIC_BASS_DRUM:
+            case PEDAL_HI_HAT:
+                                if(row != 2 && row != 3)
+                                    System.out.println("Wrong part of body");
+        
+        
+        
+        }
+        
+        
+        
         String value = (String)rhythmTable.getValueAt(rhythmTable.getSelectedRow(), rhythmTable.getSelectedColumn());
+        UsbResult = UsbWriter.sendBytes("$".getBytes());
         if(value == null)
             rhythmTable.setValueAt("@", rhythmTable.getSelectedRow(), rhythmTable.getSelectedColumn());
         else
@@ -370,8 +395,7 @@ public class MainFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        emf = Persistence.createEntityManagerFactory("RhythmPU");
-        em = emf.createEntityManager();
+        
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
