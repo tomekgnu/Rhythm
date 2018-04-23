@@ -1,4 +1,4 @@
-package rhythm;
+package misc;
 
 import java.io.*;
 import java.util.*;

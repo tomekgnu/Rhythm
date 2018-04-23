@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rhythm;
+package misc;
 
 /**
  *
@@ -28,9 +28,15 @@ public enum DrumSet {
     RIDE_CYMBAL_2("Ride cymbal 2",13),
     SPLASH_CYMBAL("Splash cymbal",14),
     CHINESE_CYMBAL("Chinese cymbal",15);
+    DrumSet[] array = {};
 
-    static int getObject(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static DrumSet getObject(int index) {
+        for(DrumSet d:DrumSet.values()){
+            if(d.getValue() == index)
+                return d;
+        }
+        
+        return ACOUSTIC_BASS_DRUM;
     }
    
     private final String name;
@@ -38,14 +44,14 @@ public enum DrumSet {
         
     DrumSet(String name,int value){
         this.name = name;
-        this.value = value;
+        this.value = value;        
     }
 
     public String getName() {
         return this.name;
     }  
-   public DrumSet getValue() {
-        return this;
+   public int getValue() {
+        return value;
     }
    
  

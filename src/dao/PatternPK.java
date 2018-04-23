@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rhythm;
+package dao;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
@@ -13,13 +13,14 @@ import javax.persistence.Embeddable;
  * @author Tomek
  */
 @Embeddable
-public class SequencePK implements Serializable {
+public class PatternPK implements Serializable {
 
-   private int id;
-   
-    public SequencePK() {
+    private int id;
+    
+    public PatternPK() {
     }
 
+   
     @Override
     public int hashCode() {
         int hash = 0;
@@ -29,10 +30,10 @@ public class SequencePK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SequencePK)) {
+        if (!(object instanceof PatternPK)) {
             return false;
         }
-        SequencePK other = (SequencePK) object;
+        PatternPK other = (PatternPK) object;
         return true;
     }
 
