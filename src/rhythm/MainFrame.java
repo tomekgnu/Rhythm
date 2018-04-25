@@ -11,6 +11,7 @@ import dao.SequencePK;
 import dao.Pattern;
 import dao.PatternPK;
 import dao.Sequence;
+import dao.Song;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
@@ -29,7 +30,8 @@ public class MainFrame extends javax.swing.JFrame {
     private EntityManagerFactory emf;
     private EntityManager em;
     private boolean UsbResult;
-    
+    private Song currentSong;
+    private Sequence currentSequence;
     /**
      * Creates new form MainFrame
      */
@@ -426,8 +428,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_rhythmTableMouseClicked
 
     private void savePatternButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePatternButtonActionPerformed
-        Pattern p = new Pattern();
-        p.setPatternPK(new PatternPK());
+        Pattern p = new Pattern();        
         p.setBeats(1);
         em.getTransaction().begin();
         em.persist(p);        
@@ -436,8 +437,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void saveSequenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSequenceButtonActionPerformed
         Sequence s = new Sequence();
-        s.setSequencePK(new SequencePK());
         s.setPatternID(1);
+        s.setSeqNum(1);
+        
         em.getTransaction().begin();
         em.persist(s);
         em.getTransaction().commit();

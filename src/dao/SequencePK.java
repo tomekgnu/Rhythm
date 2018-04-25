@@ -15,11 +15,12 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class SequencePK implements Serializable {
 
-   private int id;
-   
+    private Integer ID;
+    
     public SequencePK() {
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -38,7 +39,7 @@ public class SequencePK implements Serializable {
 
     @Override
     public String toString() {
-        return Integer.toString(id);
+        return "ERROR";
     }
     
 }

@@ -4,6 +4,9 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>dao.Pattern</class>
     <class>dao.Sequence</class>
+    <class>dao.Song</class>
+    <class>dao.PatternEvent</class>
+    <class>dao.Event</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:\Users\Tomek\workspace\Rhythm\demo.sqlite3"/>
       <property name="javax.persistence.jdbc.user" value=""/>

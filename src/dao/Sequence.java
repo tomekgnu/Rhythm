@@ -6,15 +6,11 @@
 package dao;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -22,35 +18,27 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Tomek
  */
 @Entity
-@Table(name = "Sequence")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Sequence.findAll", query = "SELECT s FROM Sequence s")
     , @NamedQuery(name = "Sequence.findById", query = "SELECT s FROM Sequence s WHERE s.id = :id")
-    , @NamedQuery(name = "Sequence.findByPatternID", query = "SELECT s FROM Sequence s WHERE s.patternID = :patternID")})
+    , @NamedQuery(name = "Sequence.findByPatternID", query = "SELECT s FROM Sequence s WHERE s.patternID = :patternID")
+    , @NamedQuery(name = "Sequence.findBySeqNum", query = "SELECT s FROM Sequence s WHERE s.seqNum = :seqNum")})
 public class Sequence implements Serializable {
 
-    private static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected SequencePK sequencePK;
-    @GeneratedValue(generator="sqlite_seq")
-    @TableGenerator(name="sqlite_seq", table="sqlite_sequence",
-    pkColumnName="name", valueColumnName="seq",pkColumnValue="Sequence",allocationSize = 1,initialValue = 1)
-    @Column(name = "ID")
     private Integer id;
     @Column(name = "Pattern_ID")
     private Integer patternID;
+    private Integer seqNum;
 
     public Sequence() {
     }
 
     public Sequence(SequencePK sequencePK) {
         this.sequencePK = sequencePK;
-    }
-
-    public Sequence(SequencePK sequencePK, int id) {
-        this.sequencePK = sequencePK;
-        this.id = id;
     }
 
     public SequencePK getSequencePK() {
@@ -61,11 +49,11 @@ public class Sequence implements Serializable {
         this.sequencePK = sequencePK;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -75,6 +63,14 @@ public class Sequence implements Serializable {
 
     public void setPatternID(Integer patternID) {
         this.patternID = patternID;
+    }
+
+    public Integer getSeqNum() {
+        return seqNum;
+    }
+
+    public void setSeqNum(Integer seqNum) {
+        this.seqNum = seqNum;
     }
 
     @Override
@@ -99,7 +95,7 @@ public class Sequence implements Serializable {
 
     @Override
     public String toString() {
-        return "rhythm.Sequence[ sequencePK=" + sequencePK + " ]";
+        return "dao.Sequence[ sequencePK=" + sequencePK + " ]";
     }
     
 }
