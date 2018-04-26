@@ -27,7 +27,8 @@ public enum DrumSet {
     CRASH_CYMBAL_1("Crash cymbal 1",12),
     RIDE_CYMBAL_2("Ride cymbal 2",13),
     SPLASH_CYMBAL("Splash cymbal",14),
-    CHINESE_CYMBAL("Chinese cymbal",15);
+    CHINESE_CYMBAL("Chinese cymbal",15),
+    BASS_GUITAR("Bass guitar",16);
     DrumSet[] array = {};
 
     public static DrumSet getObject(int index) {
@@ -72,7 +73,8 @@ public enum DrumSet {
             CRASH_CYMBAL_1.getName(),
             RIDE_CYMBAL_2.getName(),
             SPLASH_CYMBAL.getName(),
-            CHINESE_CYMBAL.getName()
+            CHINESE_CYMBAL.getName(),
+            BASS_GUITAR.getName()
         };
     }
         

@@ -6,8 +6,11 @@
 package dao;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,8 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected EventPK eventPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE,generator = "Event")
+    @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
     private Integer part;
     private Integer position;
@@ -37,18 +41,6 @@ public class Event implements Serializable {
     private Integer time;
 
     public Event() {
-    }
-
-    public Event(EventPK eventPK) {
-        this.eventPK = eventPK;
-    }
-
-    public EventPK getEventPK() {
-        return eventPK;
-    }
-
-    public void setEventPK(EventPK eventPK) {
-        this.eventPK = eventPK;
     }
 
     public Integer getId() {
@@ -93,9 +85,7 @@ public class Event implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (eventPK != null ? eventPK.hashCode() : 0);
-        return hash;
+        return super.hashCode();
     }
 
     @Override
@@ -104,16 +94,13 @@ public class Event implements Serializable {
         if (!(object instanceof Event)) {
             return false;
         }
-        Event other = (Event) object;
-        if ((this.eventPK == null && other.eventPK != null) || (this.eventPK != null && !this.eventPK.equals(other.eventPK))) {
-            return false;
-        }
-        return true;
+        
+        return this.id.equals(((Integer)object));
     }
 
     @Override
     public String toString() {
-        return "dao.Event[ eventPK=" + eventPK + " ]";
+        return "dao.Event[ eventPK=" + id + " ]";
     }
     
 }

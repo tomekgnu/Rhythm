@@ -7,8 +7,10 @@ package dao;
 
 import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,8 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PatternEvent implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected PatternEventPK patternEventPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE,generator = "PatternEvent")
+    @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
     @Column(name = "Pattern_ID")
     private Integer patternID;
@@ -38,18 +41,7 @@ public class PatternEvent implements Serializable {
     public PatternEvent() {
     }
 
-    public PatternEvent(PatternEventPK patternEventPK) {
-        this.patternEventPK = patternEventPK;
-    }
-
-    public PatternEventPK getPatternEventPK() {
-        return patternEventPK;
-    }
-
-    public void setPatternEventPK(PatternEventPK patternEventPK) {
-        this.patternEventPK = patternEventPK;
-    }
-
+    
     public Integer getId() {
         return id;
     }
@@ -76,9 +68,7 @@ public class PatternEvent implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (patternEventPK != null ? patternEventPK.hashCode() : 0);
-        return hash;
+        return super.hashCode();
     }
 
     @Override
@@ -87,16 +77,12 @@ public class PatternEvent implements Serializable {
         if (!(object instanceof PatternEvent)) {
             return false;
         }
-        PatternEvent other = (PatternEvent) object;
-        if ((this.patternEventPK == null && other.patternEventPK != null) || (this.patternEventPK != null && !this.patternEventPK.equals(other.patternEventPK))) {
-            return false;
-        }
-        return true;
+        return this.id.equals(((Integer)object));
     }
 
     @Override
     public String toString() {
-        return "dao.PatternEvent[ patternEventPK=" + patternEventPK + " ]";
+        return "dao.PatternEvent[ patternEventPK=" + id + " ]";
     }
     
 }

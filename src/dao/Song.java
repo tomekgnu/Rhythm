@@ -7,8 +7,10 @@ package dao;
 
 import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,26 +29,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Song implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected SongPK songPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE,generator = "Song")
+    @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
     private String name;
     @Column(name = "Sequence_ID")
     private Integer sequenceID;
 
     public Song() {
-    }
-
-    public Song(SongPK songPK) {
-        this.songPK = songPK;
-    }
-
-    public SongPK getSongPK() {
-        return songPK;
-    }
-
-    public void setSongPK(SongPK songPK) {
-        this.songPK = songPK;
     }
 
     public Integer getId() {
@@ -75,9 +66,7 @@ public class Song implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (songPK != null ? songPK.hashCode() : 0);
-        return hash;
+       return super.hashCode();
     }
 
     @Override
@@ -86,16 +75,12 @@ public class Song implements Serializable {
         if (!(object instanceof Song)) {
             return false;
         }
-        Song other = (Song) object;
-        if ((this.songPK == null && other.songPK != null) || (this.songPK != null && !this.songPK.equals(other.songPK))) {
-            return false;
-        }
-        return true;
+        return this.id.equals(((Integer)object));
     }
 
     @Override
     public String toString() {
-        return "dao.Song[ songPK=" + songPK + " ]";
+        return "dao.Song[ songPK=" + id + " ]";
     }
     
 }

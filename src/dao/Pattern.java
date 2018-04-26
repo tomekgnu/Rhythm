@@ -7,12 +7,12 @@ package dao;
 
 import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.TableGenerator;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,27 +30,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Pattern implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected PatternPK patternPK;    
+   
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE,generator = "Pattern")
+    @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
     private Integer beats;
     private Integer division;
     private Integer duration;
 
     public Pattern() {
-    }
-
-    public Pattern(PatternPK patternPK) {
-        this.patternPK = patternPK;
-    }
-
-    public PatternPK getPatternPK() {
-        return patternPK;
-    }
-
-    public void setPatternPK(PatternPK patternPK) {
-        this.patternPK = patternPK;
-    }
+    }    
 
     public Integer getId() {
         return id;
@@ -86,9 +77,7 @@ public class Pattern implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (patternPK != null ? patternPK.hashCode() : 0);
-        return hash;
+        return super.hashCode();
     }
 
     @Override
@@ -97,16 +86,13 @@ public class Pattern implements Serializable {
         if (!(object instanceof Pattern)) {
             return false;
         }
-        Pattern other = (Pattern) object;
-        if ((this.patternPK == null && other.patternPK != null) || (this.patternPK != null && !this.patternPK.equals(other.patternPK))) {
-            return false;
-        }
-        return true;
+        
+        return this.id.equals(((Integer)object));
     }
 
     @Override
     public String toString() {
-        return "dao.Pattern[ patternPK=" + patternPK + " ]";
+        return "dao.Pattern[ patternPK=" + id + " ]";
     }
     
 }
