@@ -23,10 +23,9 @@ public class UsbWriter {
             if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
                 if (portId.getName().equals(port)) {
                     try {
-                        serialPort = (SerialPort)
-                        portId.open(appName, 2000);
+                        serialPort = (SerialPort)portId.open(appName, 2000);
                     } catch (PortInUseException e) {                    
-                        System.out.println(e.getMessage());
+                        System.out.println("PortInUseException: " + e.currentOwner);
                         return false;
                     }
                     try {

@@ -117,8 +117,8 @@
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="timeLabel" min="-2" pref="33" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="timeSpinner" min="-2" pref="46" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+              <Component id="timeSpinner" min="-2" pref="72" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="selectPatternLabel" max="32767" attributes="0"/>
                   <Component id="currentPatternComboBox" min="-2" pref="83" max="-2" attributes="0"/>
@@ -172,10 +172,9 @@
                           </Group>
                           <Component id="instrumentLabel" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="timeLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                  <Component id="timeSpinner" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                                   <Component id="savePatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="playPatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="numberOfBeats" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -191,9 +190,13 @@
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Component id="currentPatternComboBox" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="timeSpinner" min="-2" pref="23" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="14" max="32767" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
               <Component id="paneSeparator" min="-2" pref="0" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -419,7 +422,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="rhythmTable.setShowGrid(true);&#xa;rhythmTable.setDefaultRenderer(Object.class, new misc.CustomCellRenderer());&#xa;rhythmTable.setDefaultEditor(Object.class, null);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="rhythmTable.setShowGrid(true);&#xa;rhythmTable.setDefaultRenderer(Object.class, new CustomCellRenderer());&#xa;rhythmTable.setDefaultEditor(Object.class, null);"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -510,6 +513,10 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JSpinner" name="timeSpinner">
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="timeSpinnerStateChanged"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="timeSpinnerMouseClicked"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner()"/>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="timeSpinner.setValue(60);"/>
@@ -554,7 +561,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="sequenceTable.setTableHeader(null);&#xa;sequenceTable.setShowGrid(true);&#xa;sequenceTable.setColumnSelectionAllowed(false);&#xa;sequenceTable.setRowSelectionAllowed(false);&#xa;sequenceTable.setDefaultRenderer(Object.class, new misc.CustomCellRenderer());&#xa;rhythmTable.setDefaultEditor(Object.class, null);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="sequenceTable.setTableHeader(null);&#xa;sequenceTable.setShowGrid(true);&#xa;sequenceTable.setColumnSelectionAllowed(false);&#xa;sequenceTable.setRowSelectionAllowed(false);&#xa;sequenceTable.setDefaultRenderer(Object.class, new CustomCellRenderer());&#xa;rhythmTable.setDefaultEditor(Object.class, null);"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -573,6 +580,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="currentPatternComboBoxActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
