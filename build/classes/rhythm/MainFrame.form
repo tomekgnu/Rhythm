@@ -111,7 +111,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="resolutionLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="resolutionComboBox" min="-2" pref="51" max="-2" attributes="0"/>
+                      <Component id="divisionComboBox" min="-2" pref="51" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
@@ -179,7 +179,7 @@
                                   <Component id="playPatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="numberOfBeats" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="resolutionLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                  <Component id="resolutionComboBox" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                  <Component id="divisionComboBox" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -465,7 +465,7 @@
         <Property name="text" type="java.lang.String" value="Division"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="resolutionComboBox">
+    <Component class="javax.swing.JComboBox" name="divisionComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="32">
@@ -505,8 +505,8 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="resolutionComboBoxItemStateChanged"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resolutionComboBoxActionPerformed"/>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="divisionComboBoxItemStateChanged"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="divisionComboBoxActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

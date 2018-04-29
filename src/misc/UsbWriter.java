@@ -16,6 +16,12 @@ public class UsbWriter {
 //        
 //    }
     
+    public static boolean deInit(){
+        if(serialPort != null)
+            serialPort.close();
+        return true;
+    }
+    
     public static boolean init(String port,String appName) {
         portList = CommPortIdentifier.getPortIdentifiers();
         while (portList.hasMoreElements()) {

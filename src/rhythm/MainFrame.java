@@ -73,7 +73,7 @@ public class MainFrame extends javax.swing.JFrame {
         instrumentLabel = new javax.swing.JLabel();
         timeLabel = new javax.swing.JLabel();
         resolutionLabel = new javax.swing.JLabel();
-        resolutionComboBox = new javax.swing.JComboBox<>();
+        divisionComboBox = new javax.swing.JComboBox<>();
         timeSpinner = new javax.swing.JSpinner();
         paneSeparator = new javax.swing.JSeparator();
         sequenceScrollPane = new javax.swing.JScrollPane();
@@ -161,15 +161,15 @@ public class MainFrame extends javax.swing.JFrame {
 
         resolutionLabel.setText("Division");
 
-        resolutionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32" }));
-        resolutionComboBox.addItemListener(new java.awt.event.ItemListener() {
+        divisionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32" }));
+        divisionComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                resolutionComboBoxItemStateChanged(evt);
+                divisionComboBoxItemStateChanged(evt);
             }
         });
-        resolutionComboBox.addActionListener(new java.awt.event.ActionListener() {
+        divisionComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resolutionComboBoxActionPerformed(evt);
+                divisionComboBoxActionPerformed(evt);
             }
         });
 
@@ -334,7 +334,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(resolutionLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resolutionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(divisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -391,7 +391,7 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addComponent(playPatternButton)
                                     .addComponent(numberOfBeats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(resolutionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(resolutionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(divisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(selectPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
@@ -528,17 +528,17 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosing
 
-    private void resolutionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resolutionComboBoxActionPerformed
+    private void divisionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_divisionComboBoxActionPerformed
         setRhythmTableModel();
         if(pattern != null)
             pattern.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
-                    Integer.parseInt(resolutionComboBox.getSelectedItem().toString()),
+                    Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
                     Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
-    }//GEN-LAST:event_resolutionComboBoxActionPerformed
+    }//GEN-LAST:event_divisionComboBoxActionPerformed
 
-    private void resolutionComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_resolutionComboBoxItemStateChanged
+    private void divisionComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_divisionComboBoxItemStateChanged
         // TODO add your handling code here:
-    }//GEN-LAST:event_resolutionComboBoxItemStateChanged
+    }//GEN-LAST:event_divisionComboBoxItemStateChanged
 
     private void playPatternButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playPatternButtonActionPerformed
         togglePlayback = !togglePlayback;
@@ -547,7 +547,7 @@ public class MainFrame extends javax.swing.JFrame {
             playPatternButton.setText("Stop");
             pattern = new Playback();
             pattern.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
-                    Integer.parseInt(resolutionComboBox.getSelectedItem().toString()),
+                    Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
                     Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
             pattern.start();
         }
@@ -565,7 +565,7 @@ public class MainFrame extends javax.swing.JFrame {
         setRhythmTableModel();
         if(pattern != null)
             pattern.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
-                    Integer.parseInt(resolutionComboBox.getSelectedItem().toString()),
+                    Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
                     Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
     }//GEN-LAST:event_numberOfBeatsActionPerformed
 
@@ -585,16 +585,20 @@ public class MainFrame extends javax.swing.JFrame {
     private void timeSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_timeSpinnerStateChanged
         if(pattern != null)
             pattern.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
-                    Integer.parseInt(resolutionComboBox.getSelectedItem().toString()),
+                    Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
                     Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
     }//GEN-LAST:event_timeSpinnerStateChanged
 
     private void setRhythmTableModel(){
-        int division = Integer.parseInt(resolutionComboBox.getSelectedItem().toString());
+        int division = Integer.parseInt(divisionComboBox.getSelectedItem().toString());
         int beats = Integer.parseInt(numberOfBeats.getSelectedItem().toString());
         int cols = division * beats;
-        if(cols > 32)
+        if(cols > 32){
             cols = 32;
+            beats = 32;
+            division = 1;
+            divisionComboBox.setSelectedIndex(0);
+        }
         rhythmTable.setModel(new javax.swing.table.DefaultTableModel(5,cols ));
         currentPatternData[0] = new DrumSet[cols];
         currentPatternData[1] = new DrumSet[cols];
@@ -648,6 +652,7 @@ public class MainFrame extends javax.swing.JFrame {
             public void windowClosing(WindowEvent e){
                 em.close();
                 emf.close();
+                UsbWriter.deInit();
             }
         };
         
@@ -656,6 +661,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel bassGuitarLabel;
     private javax.swing.JLabel beatLabel;
     private javax.swing.JComboBox<String> currentPatternComboBox;
+    private javax.swing.JComboBox<String> divisionComboBox;
     private javax.swing.JLabel drumPatternLabel;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
@@ -672,7 +678,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane patternScrollPane;
     private javax.swing.JButton playPatternButton;
     private javax.swing.JButton playSequenceButton;
-    private javax.swing.JComboBox<String> resolutionComboBox;
     private javax.swing.JLabel resolutionLabel;
     private javax.swing.JTable rhythmTable;
     private javax.swing.JLabel rightFootLabel;
