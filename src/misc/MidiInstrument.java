@@ -5,12 +5,16 @@
  */
 package misc;
 
+import rhythm.MidiEvent;
+
 /**
  *
  * @author Tomek
  */
 
-public enum DrumSet {
+
+
+public enum MidiInstrument {
    
     ACOUSTIC_BASS_DRUM("Acoustic base drum",0,(byte)35),
     SIDE_STICK("Side stick",1,(byte)37),
@@ -28,31 +32,25 @@ public enum DrumSet {
     RIDE_CYMBAL_2("Ride cymbal 2",13,(byte)59),
     SPLASH_CYMBAL("Splash cymbal",14,(byte)55),
     CHINESE_CYMBAL("Chinese cymbal",15,(byte)52),
-    BASS_GUITAR("Bass guitar",16,(byte)1);
+    BASS_GUITAR("Bass guitar",16),
+    NONE("None",17);
     
-    public static DrumSet getObject(int index) {
-        for(DrumSet d:DrumSet.values()){
-            if(d.getValue() == index)
-                return d;
-        }
-        
-        return ACOUSTIC_BASS_DRUM;
-    }
    
     private final String name;
     private final int numValue;
-    private final byte midiValue;
+    private byte midiValue;
         
-    DrumSet(String name,int value,byte mValue){
+    MidiInstrument(String name,int value,byte mValue){
         this.name = name;
-        this.numValue = value; 
+        this.numValue = value;
         this.midiValue = mValue;
     }
     
-    public byte getMidiValue(){
-        return this.midiValue;
+    MidiInstrument(String name,int value){
+        this.name = name;
+        this.numValue = value;
     }
-    
+   
     public String getName() {
         return this.name;
     }  
@@ -82,5 +80,22 @@ public enum DrumSet {
             BASS_GUITAR.getName()
         };
     }
+  
+     public static MidiInstrument getInstrument(int index) {       
+        for(MidiInstrument d:MidiInstrument.values()){
+            if(d.getValue() == index)
+                return d;
+        }        
+        
+        return BASS_GUITAR;   
+    }
+
+    public byte getMidiValue() {
+        return this.midiValue;
+    }
         
 }
+
+
+
+

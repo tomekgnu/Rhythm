@@ -98,16 +98,41 @@
                   </Group>
               </Group>
           </Group>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="drumPatternLabel" min="-2" pref="128" max="-2" attributes="0"/>
+                  <Component id="sequenceScrollPane" min="-2" pref="264" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="instrumentLabel" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="instrumentComboBox" min="-2" pref="147" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="beatLabel" min="-2" pref="52" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="numberOfBeats" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="instrumentLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="noteLabel" min="-2" pref="57" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="noteSelectComboBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="octaveLabel" min="-2" pref="49" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="octaveSelectComboBox" min="-2" pref="87" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="instrumentComboBox" min="-2" pref="147" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="beatLabel" min="-2" pref="52" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="numberOfBeats" min="-2" pref="48" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="resolutionLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -125,17 +150,9 @@
               </Group>
               <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
               <Component id="playPatternButton" min="-2" pref="107" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="savePatternButton" min="-2" pref="107" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="drumPatternLabel" min="-2" pref="128" max="-2" attributes="0"/>
-                  <Component id="sequenceScrollPane" min="-2" pref="264" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -196,9 +213,18 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="octaveSelectComboBox" alignment="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="noteSelectComboBox" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                      <Component id="noteLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="octaveLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="paneSeparator" min="-2" pref="0" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="playSequenceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="saveSequenceButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -430,7 +456,7 @@
     <Component class="javax.swing.JComboBox" name="instrumentComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;String&gt;(DrumSet.displayValues())" type="code"/>
+          <Connection code="new javax.swing.DefaultComboBoxModel&lt;String&gt;(misc.MidiInstrument.displayValues())" type="code"/>
         </Property>
       </Properties>
       <Events>
@@ -667,6 +693,68 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="playSequenceButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="noteSelectComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="13">
+            <StringItem index="0" value="C"/>
+            <StringItem index="1" value="C#/Db"/>
+            <StringItem index="2" value="D"/>
+            <StringItem index="3" value="D#/Eb"/>
+            <StringItem index="4" value="E"/>
+            <StringItem index="5" value="E#/F"/>
+            <StringItem index="6" value="F#/Gb"/>
+            <StringItem index="7" value="G"/>
+            <StringItem index="8" value="G#/Ab"/>
+            <StringItem index="9" value="A"/>
+            <StringItem index="10" value="A#/Bb"/>
+            <StringItem index="11" value="B"/>
+            <StringItem index="12" value="B#/C"/>
+          </StringArray>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="noteSelectComboBoxActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="noteLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Note"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="octaveLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Octave"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="octaveSelectComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="9">
+            <StringItem index="0" value="Contra"/>
+            <StringItem index="1" value="Great"/>
+            <StringItem index="2" value="Small"/>
+            <StringItem index="3" value="1 Line"/>
+            <StringItem index="4" value="2 Line"/>
+            <StringItem index="5" value="3 Line"/>
+            <StringItem index="6" value="4 Line"/>
+            <StringItem index="7" value="5 Line"/>
+            <StringItem index="8" value="6 Line"/>
+          </StringArray>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="octaveSelectComboBoxActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
