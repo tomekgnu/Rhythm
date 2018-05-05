@@ -27,27 +27,31 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Event.findByPart", query = "SELECT e FROM Event e WHERE e.part = :part")
     , @NamedQuery(name = "Event.findByPosition", query = "SELECT e FROM Event e WHERE e.position = :position")
     , @NamedQuery(name = "Event.findByInstrument", query = "SELECT e FROM Event e WHERE e.instrument = :instrument")
-    , @NamedQuery(name = "Event.findByTime", query = "SELECT e FROM Event e WHERE e.time = :time")})
+    , @NamedQuery(name = "Event.findByMidiValue", query = "SELECT e FROM Event e WHERE e.midiValue = :instrument")})
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator = "Event")
-    @Column(name = "id", updatable = false, nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    
     private Integer part;
     private Integer position;
     private Integer instrument;
-    private Integer time;
-
+    private Integer midiValue;
+    
     public Event() {
     }
 
-    public Integer getId() {
+    public void setMidiValue(Integer v){
+        this.midiValue = v;
+    }
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -74,15 +78,7 @@ public class Event implements Serializable {
     public void setInstrument(Integer instrument) {
         this.instrument = instrument;
     }
-
-    public Integer getTime() {
-        return time;
-    }
-
-    public void setTime(Integer time) {
-        this.time = time;
-    }
-
+  
     @Override
     public int hashCode() {
         return super.hashCode();
@@ -101,6 +97,10 @@ public class Event implements Serializable {
     @Override
     public String toString() {
         return "dao.Event[ eventPK=" + id + " ]";
+    }
+
+    public int getMidiValue() {
+        return this.midiValue;
     }
     
 }

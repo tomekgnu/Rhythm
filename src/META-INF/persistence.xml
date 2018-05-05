@@ -7,6 +7,7 @@
     <class>dao.PatternEvent</class>
     <class>dao.Event</class>
     <class>dao.SequencePattern</class>
+    <class>dao.PatternSequence</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:\Users\Tomek\workspace\Rhythm\demo.sqlite3"/>
       <property name="javax.persistence.jdbc.user" value=""/>

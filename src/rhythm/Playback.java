@@ -5,6 +5,7 @@
  */
 package rhythm;
 
+import misc.MidiEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import misc.MidiInstrument;
@@ -19,7 +20,7 @@ public class Playback extends Thread {
     private boolean execute = false;
     private boolean usbResult;    
     private int beatTime = 60;
-    private int resolution;
+    private int division;
     private int patternTime;
     private int beats;
     private int subBeats;
@@ -34,12 +35,11 @@ public class Playback extends Thread {
         byte[] sendEvents = new byte[5];
         while(execute){
             //System.out.println("thread is running...");
-            try {
-                
+            try {                
                 
                 for(int i = 0; i < 5; i++){
                     if((event = (MidiEvent)MainFrame.currentPatternData[i][subBeatIndex]) != null)
-                        sendEvents[i] = event.getMidiValue();
+                        sendEvents[i] = (byte)event.getMidiValue();
                     else
                         sendEvents[i] = (byte)0;
                 }
@@ -57,11 +57,11 @@ public class Playback extends Thread {
     // time,resolution,beats
     public void setTime(int t,int r,int b){
        this.beatTime = 60000 / t; 
-       this.resolution = r;
+       this.division = r;
        this.beats = b;
-       this.subBeats = this.resolution * this.beats;
+       this.subBeats = this.division * this.beats;
        this.patternTime = this.beatTime * this.beats;
-       this.subBeatTime = this.beatTime / this.resolution;
+       this.subBeatTime = this.beatTime / this.division;
     }
     
     

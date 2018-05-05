@@ -6,6 +6,7 @@
 package dao;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -24,27 +26,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Song.findAll", query = "SELECT s FROM Song s")
     , @NamedQuery(name = "Song.findById", query = "SELECT s FROM Song s WHERE s.id = :id")
-    , @NamedQuery(name = "Song.findByName", query = "SELECT s FROM Song s WHERE s.name = :name")
-    , @NamedQuery(name = "Song.findBySequenceID", query = "SELECT s FROM Song s WHERE s.sequenceID = :sequenceID")})
+    , @NamedQuery(name = "Song.findByName", query = "SELECT s FROM Song s WHERE s.name = :name")})
 public class Song implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator = "Song")
-    @Column(name = "id", updatable = false, nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
-    @Column(name = "Sequence_ID")
-    private Integer sequenceID;
+    
+    @OneToMany( targetEntity=PatternSequence.class )
+    private List sequenceList;
 
     public Song() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,12 +57,12 @@ public class Song implements Serializable {
         this.name = name;
     }
 
-    public Integer getSequenceID() {
-        return sequenceID;
+    public List getSequenceList() {
+        return this.sequenceList;
     }
 
-    public void setSequenceID(Integer sequenceID) {
-        this.sequenceID = sequenceID;
+    public void setSequenceList(List sequenceList) {
+        this.sequenceList = sequenceList;
     }
 
     @Override

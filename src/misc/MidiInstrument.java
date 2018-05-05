@@ -5,52 +5,50 @@
  */
 package misc;
 
-import rhythm.MidiEvent;
+import java.awt.Color;
 
 /**
  *
  * @author Tomek
  */
 
-
-
 public enum MidiInstrument {
    
-    ACOUSTIC_BASS_DRUM("Acoustic base drum",0,(byte)35),
-    SIDE_STICK("Side stick",1,(byte)37),
-    ACOUSTIC_SNARE("Acoustic snare",2,(byte)38),
-    COWBELL("Cowbell",3,(byte)56),
-    LOW_FLOOR_TOM("Low floor tom",4,(byte)41),
-    HIGH_FLOOR_TOM("High floor tom",5,(byte)43),
-    LOW_MID_TOM("Low mid tom",6,(byte)47),
-    HI_MID_TOM("Hi mid tom",7,(byte)48),
-    HIGH_TOM("High tom",8,(byte)50),
-    CLOSED_HI_HAT("Closed hi-hat",9,(byte)42),
-    OPEN_HI_HAT("Open hi-hat",10,(byte)46),
-    PEDAL_HI_HAT("Pedal hi-hat",11,(byte)44),
-    CRASH_CYMBAL_1("Crash cymbal 1",12,(byte)49),
-    RIDE_CYMBAL_2("Ride cymbal 2",13,(byte)59),
-    SPLASH_CYMBAL("Splash cymbal",14,(byte)55),
-    CHINESE_CYMBAL("Chinese cymbal",15,(byte)52),
-    BASS_GUITAR("Bass guitar",16),
-    NONE("None",17);
+    ACOUSTIC_BASS_DRUM("Acoustic base drum",0,35,Color.red,Color.white),
+    SIDE_STICK("Side stick",1,37,Color.yellow,Color.black),
+    ACOUSTIC_SNARE("Acoustic snare",2,38,Color.blue,Color.white),
+    COWBELL("Cowbell",3,56,Color.green,Color.white),
+    LOW_FLOOR_TOM("Low floor tom",4,41,Color.black,Color.white),
+    HIGH_FLOOR_TOM("High floor tom",5,43,Color.white,Color.black),
+    LOW_MID_TOM("Low mid tom",6,47,Color.darkGray,Color.white),
+    HI_MID_TOM("Hi mid tom",7,48,Color.orange,Color.white),
+    HIGH_TOM("High tom",8,50,Color.cyan,Color.darkGray),
+    CLOSED_HI_HAT("Closed hi-hat",9,42,Color.pink,Color.white),
+    OPEN_HI_HAT("Open hi-hat",10,46,Color.gray,Color.white),
+    PEDAL_HI_HAT("Pedal hi-hat",11,44,Color.magenta,Color.white),
+    CRASH_CYMBAL_1("Crash cymbal 1",12,49,Color.decode("113355"),Color.white),
+    RIDE_CYMBAL_2("Ride cymbal 2",13,59,Color.decode("553355"),Color.white),
+    SPLASH_CYMBAL("Splash cymbal",14,55,Color.decode("116655"),Color.white),
+    CHINESE_CYMBAL("Chinese cymbal",15,52,Color.decode("003355"),Color.white),
+    BASS_GUITAR("Bass guitar",16,0,Color.decode("002211"),Color.white),
+    NONE("No instrument",17,0,Color.WHITE,Color.white);
     
    
     private final String name;
     private final int numValue;
-    private byte midiValue;
+    private final int midiValue;
+    private final Color background;
+    private final Color foreground;
         
-    MidiInstrument(String name,int value,byte mValue){
+    MidiInstrument(String name,int value,int mValue,Color bg,Color fg){
         this.name = name;
         this.numValue = value;
         this.midiValue = mValue;
+        this.background = bg;
+        this.foreground = fg;
     }
     
-    MidiInstrument(String name,int value){
-        this.name = name;
-        this.numValue = value;
-    }
-   
+       
     public String getName() {
         return this.name;
     }  
@@ -90,10 +88,17 @@ public enum MidiInstrument {
         return BASS_GUITAR;   
     }
 
-    public byte getMidiValue() {
+    public int getMidiValue() {
         return this.midiValue;
     }
-        
+
+    public Color getBackground() {
+        return this.background;
+    }
+    
+    public Color getForeground() {
+        return this.foreground;
+    }    
 }
 
 

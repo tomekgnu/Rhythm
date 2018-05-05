@@ -3,39 +3,38 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rhythm;
+package misc;
 
+import dao.Event;
 import java.util.Objects;
-import misc.MidiInstrument;
 
 /**
  *
  * @author Tomek
  */
-public class MidiEvent {
+public class MidiEvent extends Event{
    
-    private byte midiValue;
     private MidiInstrument instrument;
     
-    MidiEvent(){
+    public MidiEvent(){
         
     }
-    MidiEvent(int index,int note,int oct){
+    
+    
+    public MidiEvent(int index,int part,int pos,int note,int oct){
         this.instrument = MidiInstrument.getInstrument(index);
-        this.midiValue = instrument.getMidiValue();
+        super.setMidiValue(instrument.getMidiValue());
+        super.setInstrument(index);
+        super.setPart(part);
+        super.setPosition(pos);
         if(instrument == MidiInstrument.BASS_GUITAR)
-            this.midiValue = (byte)(note + 24 + (oct * 12));
-    }
-    public byte getMidiValue(){
-        return this.midiValue;
-    }
-    public void setMidiValue(byte val){
-        this.midiValue = val;
-    }
-    public MidiInstrument getInstrument(){
-       return this.instrument;
+            super.setMidiValue(note + 24 + (oct * 12));
     }
     
+   
+    public MidiInstrument getMidiInstrument(){
+       return this.instrument;
+    }    
     
     @Override
     public boolean equals(Object e){
@@ -47,7 +46,7 @@ public class MidiEvent {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 89 * hash + this.midiValue;
+        hash = 89 * hash + super.getMidiValue();
         hash = 89 * hash + Objects.hashCode(this.instrument);
         return hash;
     }

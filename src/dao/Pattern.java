@@ -6,13 +6,15 @@
 package dao;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -25,7 +27,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pattern.findAll", query = "SELECT p FROM Pattern p")
     , @NamedQuery(name = "Pattern.findById", query = "SELECT p FROM Pattern p WHERE p.id = :id")
     , @NamedQuery(name = "Pattern.findByBeats", query = "SELECT p FROM Pattern p WHERE p.beats = :beats")
-    , @NamedQuery(name = "Pattern.findByDivision", query = "SELECT p FROM Pattern p WHERE p.division = :division")
     , @NamedQuery(name = "Pattern.findByDuration", query = "SELECT p FROM Pattern p WHERE p.duration = :duration")})
 public class Pattern implements Serializable {
 
@@ -33,21 +34,23 @@ public class Pattern implements Serializable {
    
     
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator = "Pattern")
-    @Column(name = "id", updatable = false, nullable = false)
-    private Integer id;
-    private Integer beats;
-    private Integer division;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private Integer beats;    
     private Integer duration;
-
+    private Integer position;
+    
+    @OneToMany( targetEntity=Event.class )
+    private List eventList;
+    
     public Pattern() {
     }    
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,18 +58,19 @@ public class Pattern implements Serializable {
         return beats;
     }
 
+       
+    public void setPosition(Integer num){
+        this.position = num;
+    }
+    
+    public Integer getPosition(){
+        return this.position;
+    }
+    
     public void setBeats(Integer beats) {
         this.beats = beats;
     }
-
-    public Integer getDivision() {
-        return division;
-    }
-
-    public void setDivision(Integer division) {
-        this.division = division;
-    }
-
+    
     public Integer getDuration() {
         return duration;
     }
@@ -74,7 +78,15 @@ public class Pattern implements Serializable {
     public void setDuration(Integer duration) {
         this.duration = duration;
     }
-
+    
+    public List getEventList(){
+        return this.eventList;
+    }
+    
+    public void setEventList(List list){
+        this.eventList = list;
+    }
+    
     @Override
     public int hashCode() {
         return super.hashCode();
@@ -94,5 +106,6 @@ public class Pattern implements Serializable {
     public String toString() {
         return "dao.Pattern[ patternPK=" + id + " ]";
     }
+    
     
 }
