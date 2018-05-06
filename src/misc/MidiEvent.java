@@ -14,10 +14,11 @@ import java.util.Objects;
  */
 public class MidiEvent extends Event{
    
-    private MidiInstrument instrument;
+    private final MidiInstrument instrument;
     
     public MidiEvent(){
-        
+       this.instrument = MidiInstrument.NONE;
+       super.setInstrument(MidiInstrument.NONE.getValue());
     }
     
     

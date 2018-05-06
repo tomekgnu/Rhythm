@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/rhythm/Playback.java</file>
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/dao/Pattern.java</file>
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/dao/Song.java</file>
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/dao/PatternSequence.java</file>
@@ -10,6 +11,8 @@
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/META-INF/persistence.xml</file>
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/dao/Event.java</file>
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/misc/Controller.java</file>
+            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/misc/MidiEvent.java</file>
+            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/misc/MidiInstrument.java</file>
         </group>
     </open-files>
 </project-private>

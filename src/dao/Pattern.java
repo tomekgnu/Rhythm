@@ -11,11 +11,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+import misc.MidiEvent;
 
 /**
  *
@@ -87,6 +87,23 @@ public class Pattern implements Serializable {
         this.eventList = list;
     }
     
+    public MidiEvent getEventAt(int index){
+        if(eventList.size() > 0)
+            return (MidiEvent)eventList.get(index);
+        return null;
+    }
+    
+    public void addEvent(int index,MidiEvent evt){
+        if(eventList.get(index) != null)
+            eventList.set(index, evt);
+        else
+            eventList.add(index,evt);
+    }
+    
+    public boolean hasEvents() {
+        return eventList.size() > 0;
+    }
+    
     @Override
     public int hashCode() {
         return super.hashCode();
@@ -106,6 +123,8 @@ public class Pattern implements Serializable {
     public String toString() {
         return "dao.Pattern[ patternPK=" + id + " ]";
     }
+
+    
     
     
 }

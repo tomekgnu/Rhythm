@@ -21,33 +21,47 @@ public class Playback extends Thread {
     private boolean usbResult;    
     private int beatTime = 60;
     private int division;
-    private int patternTime;
     private int beats;
     private int subBeats;
     private int subBeatTime;
-    private int subBeatIndex;
+    private int playback;
+    public static final int PATTERN = 0;
+    public static final int SEQUENCE = 1;
+    public static final int SONG = 2;
+    
+    public Playback(int p){
+        playback = p;
+    }
     
     @Override
     public void run(){ 
-        execute = true;
-        subBeatIndex = 0;
+        execute = true;        
         MidiEvent event;
         byte[] sendEvents = new byte[5];
         while(execute){
             //System.out.println("thread is running...");
             try {                
-                
-                for(int i = 0; i < 5; i++){
-                    if((event = (MidiEvent)MainFrame.currentPatternData[i][subBeatIndex]) != null)
+                int eventList = MainFrame.currentPattern.getEventList().size();
+                int nextEvent = 0;
+                int i = 0;
+                while(nextEvent < eventList){
+                    event = (MidiEvent)MainFrame.currentPattern.getEventList().get(nextEvent);
+                    if(event.getMidiInstrument() != MidiInstrument.NONE)
                         sendEvents[i] = (byte)event.getMidiValue();
                     else
                         sendEvents[i] = (byte)0;
+                    nextEvent++;
+                    i++;
+                    if(nextEvent % 5 == 0){
+                        i = 0;
+                        usbResult = UsbWriter.sendBytes(sendEvents);
+                        Thread.sleep(subBeatTime);
+                        if(execute == false)
+                            break;
+                    }               
+                
                 }
-                usbResult = UsbWriter.sendBytes(sendEvents);
-                subBeatIndex++;
-                if(subBeatIndex == subBeats)
-                    subBeatIndex = 0;
-                Thread.sleep(subBeatTime);
+                
             } catch (InterruptedException ex) {
                 Logger.getLogger(Playback.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -59,11 +73,12 @@ public class Playback extends Thread {
        this.beatTime = 60000 / t; 
        this.division = r;
        this.beats = b;
-       this.subBeats = this.division * this.beats;
-       this.patternTime = this.beatTime * this.beats;
        this.subBeatTime = this.beatTime / this.division;
     }
     
+    public boolean isExecuting(){
+        return this.execute;
+    }
     
     public void stopExecuting() {
         this.execute = false;

@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import misc.MidiEvent;
 
 /**
  *
@@ -52,6 +53,24 @@ public class PatternSequence implements Serializable {
     public Integer getPosition(){
         return this.position;
     }
+    
+    public MidiEvent getPatternAt(int index){
+        if(patternList.size() > 0)
+            return (MidiEvent)patternList.get(index);
+        return null;
+    }
+    
+    public void addPattern(int index,Pattern pat){
+        if(patternList.get(index) != null)
+            patternList.set(index, pat);
+        else
+            patternList.add(index,pat);
+    }
+    
+    public boolean hasEvents() {
+        return patternList.size() > 0;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
