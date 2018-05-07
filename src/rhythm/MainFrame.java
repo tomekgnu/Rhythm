@@ -41,8 +41,8 @@ public class MainFrame extends javax.swing.JFrame {
     private EntityManagerFactory emf;
     private EntityManager em;
     private final boolean usbResult;
-    private Song currentSong;
-    private PatternSequence currentSequence;
+    public static Song currentSong;
+    public static PatternSequence currentSequence;
     public static Pattern currentPattern;
     private MidiEvent currentEvent;
     private int currentNote;
@@ -60,8 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         usbResult = UsbWriter.init("COM4","Rhythm");
         currentSequence = new PatternSequence();
-        currentSequence.setPatternList(new ArrayList());
-        currentPattern = new Pattern();        
+        currentSequence.setPatternList(new ArrayList());               
         setRhythmTableModel();
         togglePlayback  = false;
         currentNote =  0; // 24 = C contra
@@ -797,10 +796,12 @@ public class MainFrame extends javax.swing.JFrame {
         // x: position; y: row
               
               
-        currentSequence.addPattern(ord, currentPattern);
+        currentSequence.addPattern(ord, currentPattern);        
         patternOrderSpinner.setValue(ord + 1);
+        setRhythmTableModel();
     }//GEN-LAST:event_addPatternButtonMouseClicked
-
+    
+        
     private void setRhythmTableModel(){
         int division = Integer.parseInt(divisionComboBox.getSelectedItem().toString());
         int beats = Integer.parseInt(numberOfBeats.getSelectedItem().toString());
@@ -813,9 +814,7 @@ public class MainFrame extends javax.swing.JFrame {
             divisionComboBox.setSelectedIndex(0);
         }
        patternTable.setModel(new javax.swing.table.DefaultTableModel(5,cols ));
-       currentPattern.setEventList(new ArrayList());
-        for(int i = 0; i < cells; i++)
-            currentPattern.getEventList().add(i,new MidiEvent());
+       currentPattern = new Pattern(cells);
         
     }
     /**

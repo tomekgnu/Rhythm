@@ -54,20 +54,17 @@ public class PatternSequence implements Serializable {
         return this.position;
     }
     
-    public MidiEvent getPatternAt(int index){
+    public Pattern getPatternAt(int index){
         if(patternList.size() > 0)
-            return (MidiEvent)patternList.get(index);
+            return (Pattern)patternList.get(index);
         return null;
     }
     
     public void addPattern(int index,Pattern pat){
-        if(patternList.get(index) != null)
-            patternList.set(index, pat);
-        else
-            patternList.add(index,pat);
+        patternList.add(index,pat);
     }
     
-    public boolean hasEvents() {
+    public boolean hasPatterns() {
         return patternList.size() > 0;
     }
     
@@ -95,5 +92,5 @@ public class PatternSequence implements Serializable {
     public String toString() {
         return "dao.Sequence[ id=" + id + " ]";
     }
-    
+        
 }

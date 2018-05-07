@@ -6,6 +6,7 @@
 package dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +45,14 @@ public class Pattern implements Serializable {
     private List eventList;
     
     public Pattern() {
+        eventList = new ArrayList();
     }    
+
+    public Pattern(int eventNumber) {
+        eventList = new ArrayList();
+        for(int i = 0; i < eventNumber; i++)
+            eventList.add(i,new MidiEvent());
+    }
 
     public Long getId() {
         return id;

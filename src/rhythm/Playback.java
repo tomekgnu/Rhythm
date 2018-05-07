@@ -5,6 +5,8 @@
  */
 package rhythm;
 
+import dao.Pattern;
+import dao.PatternSequence;
 import misc.MidiEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,16 +38,40 @@ public class Playback extends Thread {
     @Override
     public void run(){ 
         execute = true;        
-        MidiEvent event;
-        byte[] sendEvents = new byte[5];
-        while(execute){
+        
+        Pattern pat = MainFrame.currentPattern;
+        PatternSequence seq = MainFrame.currentSequence;
+        int patIndex = 0;
+        if(playback == Playback.PATTERN && pat.hasEvents()){
+            while(execute){                
+                playEvents(pat);
+            }            
+        }
+        else if(playback == Playback.SEQUENCE){
+            while(seq.hasPatterns() && execute){
+                pat = seq.getPatternAt(patIndex);
+                playEvents(pat);
+                patIndex++; 
+                if(patIndex == seq.getPatternList().size())
+                    patIndex = 0;
+            }
+            
+        }
+       
             //System.out.println("thread is running...");
-            try {                
-                int eventList = MainFrame.currentPattern.getEventList().size();
+            
+        
+    }
+    
+    private void playEvents(Pattern p){
+        try {                
+                MidiEvent event;
+                byte[] sendEvents = new byte[5];
+                int eventList = p.getEventList().size();
                 int nextEvent = 0;
                 int i = 0;
                 while(nextEvent < eventList){
-                    event = (MidiEvent)MainFrame.currentPattern.getEventList().get(nextEvent);
+                    event = (MidiEvent)p.getEventAt(nextEvent);
                     if(event.getMidiInstrument() != MidiInstrument.NONE)
                         sendEvents[i] = (byte)event.getMidiValue();
                     else
@@ -65,9 +91,8 @@ public class Playback extends Thread {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Playback.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        
     }
-    
     // time,resolution,beats
     public void setTime(int t,int r,int b){
        this.beatTime = 60000 / t; 
