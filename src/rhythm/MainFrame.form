@@ -137,16 +137,16 @@
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                      <Component id="currentPatternComboBox" min="-2" pref="68" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="selectPatternComboBox" min="-2" pref="100" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="playPatternButton" min="-2" pref="107" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="addPatternButton" min="-2" pref="107" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="savePatternButton" min="-2" pref="107" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="orderLabel" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="patternOrderSpinner" min="-2" pref="54" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="instrumentLabel" min="-2" pref="63" max="-2" attributes="0"/>
@@ -197,9 +197,9 @@
                           <Component id="beatLabel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                           <Component id="instrumentComboBox" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="timeSpinner" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="currentPatternComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="selectPatternComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="playPatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="addPatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="savePatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="orderLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="patternOrderSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -295,11 +295,12 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="patternTableMouseClicked"/>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="patternTableMouseEntered"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="patternTableKeyPressed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="patternTableKeyReleased"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="patternTable.setShowGrid(true);&#xa;patternTable.setDefaultEditor(Object.class, null);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JPatternTable()"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="patternTable.setShowGrid(true);&#xa;patternTable.setDragEnabled(true);&#xa;patternTable.setDefaultEditor(Object.class, null);"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -473,29 +474,31 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sequenceTableMouseClicked"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JSequenceTable()"/>
             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="sequenceTable.setTableHeader(null);&#xa;sequenceTable.setShowGrid(true);&#xa;sequenceTable.setColumnSelectionAllowed(false);&#xa;sequenceTable.setRowSelectionAllowed(false);&#xa;sequenceTable.setRequestFocusEnabled(false);&#xa;sequenceTable.setCellSelectionEnabled(false);&#xa;sequenceTable.setDefaultRenderer(Object.class, new CustomCellRenderer());&#xa;sequenceTable.setDefaultEditor(Object.class, null);"/>
           </AuxValues>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="addPatternButton">
+    <Component class="javax.swing.JButton" name="savePatternButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Add pattern"/>
+        <Property name="text" type="java.lang.String" value="Save pattern"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="addPatternButtonMouseClicked"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addPatternButtonActionPerformed"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="savePatternButtonMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="savePatternButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="currentPatternComboBox">
+    <Component class="javax.swing.JComboBox" name="selectPatternComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
+          <StringArray count="1">
+            <StringItem index="0" value="New"/>
+          </StringArray>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="currentPatternComboBoxActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectPatternComboBoxActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

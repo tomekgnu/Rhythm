@@ -28,7 +28,7 @@ import misc.MidiEvent;
     @NamedQuery(name = "Pattern.findAll", query = "SELECT p FROM Pattern p")
     , @NamedQuery(name = "Pattern.findById", query = "SELECT p FROM Pattern p WHERE p.id = :id")
     , @NamedQuery(name = "Pattern.findByBeats", query = "SELECT p FROM Pattern p WHERE p.beats = :beats")
-    , @NamedQuery(name = "Pattern.findByDuration", query = "SELECT p FROM Pattern p WHERE p.duration = :duration")})
+    , @NamedQuery(name = "Pattern.findByBeatTime", query = "SELECT p FROM Pattern p WHERE p.beatTime = :beatTime")})
 public class Pattern implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,8 +37,9 @@ public class Pattern implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Integer beats;    
-    private Integer duration;
+    private Integer beats; 
+    private Integer division;
+    private Integer beatTime;
     private Integer position;
     
     @OneToMany( targetEntity=Event.class )
@@ -79,12 +80,20 @@ public class Pattern implements Serializable {
         this.beats = beats;
     }
     
-    public Integer getDuration() {
-        return duration;
+    public Integer getBeatTime() {
+        return beatTime;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setBeatTime(Integer duration) {
+        this.beatTime = duration;
+    }
+    
+    public Integer getDivision() {
+        return division;
+    }
+
+    public void setDivision(Integer division) {
+        this.division = division;
     }
     
     public List getEventList(){
@@ -129,7 +138,7 @@ public class Pattern implements Serializable {
 
     @Override
     public String toString() {
-        return "dao.Pattern[ patternPK=" + id + " ]";
+        return "Pattern";
     }
 
     

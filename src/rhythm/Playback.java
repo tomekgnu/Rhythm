@@ -50,6 +50,7 @@ public class Playback extends Thread {
         else if(playback == Playback.SEQUENCE){
             while(seq.hasPatterns() && execute){
                 pat = seq.getPatternAt(patIndex);
+                setTime(pat.getBeatTime(),pat.getDivision(),pat.getBeats());
                 playEvents(pat);
                 patIndex++; 
                 if(patIndex == seq.getPatternList().size())

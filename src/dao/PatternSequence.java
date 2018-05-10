@@ -6,6 +6,7 @@
 package dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +31,10 @@ public class PatternSequence implements Serializable {
     private List patternList;
     
     private Integer position;
+    
+    public PatternSequence(){
+        this.patternList = new ArrayList();
+    }
     
     public Long getId() {
         return id;
@@ -62,6 +67,10 @@ public class PatternSequence implements Serializable {
     
     public void addPattern(int index,Pattern pat){
         patternList.add(index,pat);
+    }
+    
+    public void setPattern(int index,Pattern pat){
+        patternList.set(index,pat);
     }
     
     public boolean hasPatterns() {
