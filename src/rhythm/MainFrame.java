@@ -13,6 +13,7 @@ import misc.UsbWriter;
 import dao.Song;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
 import static java.awt.event.MouseEvent.BUTTON1;
 import static java.awt.event.MouseEvent.BUTTON3;
@@ -291,6 +292,16 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         selectPatternComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New" }));
+        selectPatternComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                selectPatternComboBoxItemStateChanged(evt);
+            }
+        });
+        selectPatternComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectPatternComboBoxMouseClicked(evt);
+            }
+        });
         selectPatternComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectPatternComboBoxActionPerformed(evt);
@@ -721,7 +732,14 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_instrumentComboBoxActionPerformed
 
     private void selectPatternComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectPatternComboBoxActionPerformed
-        int index = selectPatternComboBox.getSelectedIndex();
+        int index = selectPatternComboBox.getSelectedIndex(); 
+        if(selectPatternComboBox.getSelectedItem().toString().equals("New")){
+            setRhythmTableModel();            
+            System.out.println(patternList.size());
+            return;
+        }
+        
+                        
         try{
             Pattern tmp = patternList.get(index);
             int beats = tmp.getBeats();
@@ -733,9 +751,12 @@ public class MainFrame extends javax.swing.JFrame {
             patternTable.setModel(new javax.swing.table.DefaultTableModel(5,beats * division ));
             currentPattern = tmp;
         }catch(IndexOutOfBoundsException ex){
-            setRhythmTableModel();
+            System.out.println("selectPatternComboBoxActionPerformed " + ex.getMessage());
+        //setRhythmTableModel();
+
+        patternTable.repaint();                    
+
         }
-        patternTable.repaint();
     }//GEN-LAST:event_selectPatternComboBoxActionPerformed
 
     private void timeSpinnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timeSpinnerMouseClicked
@@ -798,56 +819,37 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_sequenceTableMouseClicked
     // add pattern to temporary internal list
     private void savePatternButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_savePatternButtonMouseClicked
-        /*
-        int rows = sequenceTable.getRowCount();
-        int columns = sequenceTable.getColumnCount();
-        Integer ord = Integer.parseInt(patternOrderSpinner.getValue().toString());
-        int row = ord / columns;
-        int col = ord % columns;
-        if(ord < 0 ){
-            return; //handle
-        }
-        if(ord > (rows * columns)){
-            return; // handle
-        }
-        sequenceTable.setValueAt(ord.toString(), row, col);
-        // get all events and assign to current pattern's list
-        // x: position; y: row
-              
-              
-        currentSequence.addPattern(ord, currentPattern);        
-        patternOrderSpinner.setValue(ord + 1);
-          */
-        
-        
-        int index = selectPatternComboBox.getSelectedIndex();
-        currentPattern.setBeats(Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
-        currentPattern.setDivision(Integer.parseInt(divisionComboBox.getSelectedItem().toString()));
-        currentPattern.setBeatTime(Integer.parseInt(timeSpinner.getValue().toString()));
+       int index = selectPatternComboBox.getSelectedIndex();
+       System.out.println(index);
         try{
-             patternList.set(index,currentPattern);
+            currentPattern.setBeatTime(Integer.parseInt(timeSpinner.getValue().toString()));
+            currentPattern.setBeats(Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
+            currentPattern.setDivision(Integer.parseInt(divisionComboBox.getSelectedItem().toString()));
+            patternList.set(index,currentPattern);
         }
         catch(IndexOutOfBoundsException ex){
+            System.out.println("savePatternButtonMouseClicked " + ex.getMessage());
             patternList.add(index,currentPattern);
         } 
         try{
-             currentSequence.setPattern(index, currentPattern);
+            currentSequence.setPattern(index, currentPattern);
         }
         catch(IndexOutOfBoundsException ex){
+            System.out.println("savePatternButtonMouseClicked " + ex.getMessage());
             currentSequence.addPattern(index, currentPattern);
         }
-              
+        
         String[] array = new String[patternList.size() + 1];
         
         for (int i = 0; i < patternList.size(); i++) {
             array[i] = patternList.get(i).toString() + " " + Integer.toString(i);
         }
         array[patternList.size()] = "New";
-        
         selectPatternComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(array));
-        selectPatternComboBox.setSelectedItem("New");
-        setRhythmTableModel();
-      
+        selectPatternComboBox.setSelectedIndex(index);
+        System.out.println(patternList.size());
+        
+        
     }//GEN-LAST:event_savePatternButtonMouseClicked
 
     private void patternTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_patternTableKeyPressed
@@ -857,11 +859,21 @@ public class MainFrame extends javax.swing.JFrame {
     private void patternTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_patternTableKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_patternTableKeyReleased
+
+    private void selectPatternComboBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectPatternComboBoxMouseClicked
+        
+    }//GEN-LAST:event_selectPatternComboBoxMouseClicked
+
+    private void selectPatternComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectPatternComboBoxItemStateChanged
+        
+        
+    }//GEN-LAST:event_selectPatternComboBoxItemStateChanged
     
         
     private void setRhythmTableModel(){
         int division = Integer.parseInt(divisionComboBox.getSelectedItem().toString());
         int beats = Integer.parseInt(numberOfBeats.getSelectedItem().toString());
+        int beatTime = Integer.parseInt(timeSpinner.getValue().toString());
         int cols = division * beats;
         int cells = cols * 5;   // all table cells
         if(cols > 32){
@@ -872,7 +884,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
        patternTable.setModel(new javax.swing.table.DefaultTableModel(5,cols ));
        currentPattern = new Pattern(cells);
-        
+       currentPattern.setBeats(beats);
+       currentPattern.setDivision(division);
+       currentPattern.setBeatTime(beatTime);
+       
     }
     /**
      * @param args the command line arguments
