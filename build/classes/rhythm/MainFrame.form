@@ -78,8 +78,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="playSequenceButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="saveSequenceButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="saveFileButton" min="-2" pref="99" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -218,6 +220,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="playSequenceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="saveSequenceButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="saveFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="sequenceScrollPane" min="-2" pref="88" max="-2" attributes="0"/>
@@ -656,6 +659,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Order in seq."/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="saveFileButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Save file"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveFileButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

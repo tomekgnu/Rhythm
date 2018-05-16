@@ -42,8 +42,8 @@ public class ComboBoxRenderer implements ListCellRenderer {
         isSelected, cellHasFocus);
         
         renderer.setText(value.toString()); 
-        renderer.setBackground(MidiInstrument.getInstrument(index).getBackground());
-        renderer.setForeground(MidiInstrument.getInstrument(index).getForeground());
+        renderer.setBackground(MidiInstrument.getInstrumentByIndex(index).getBackground());
+        renderer.setForeground(MidiInstrument.getInstrumentByIndex(index).getForeground());
        
         //Set the icon and text.  If icon was null, say so.
 //        ImageIcon icon = images[selectedIndex];

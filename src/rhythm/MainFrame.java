@@ -17,15 +17,18 @@ import static java.awt.event.MouseEvent.BUTTON1;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import static javax.swing.SwingConstants.CENTER;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableCellRenderer;
 import misc.ComboBoxRenderer;
 /**
@@ -46,7 +49,8 @@ public class MainFrame extends javax.swing.JFrame {
     private boolean togglePlayback;
     private Playback patternPlayback;
     private Playback sequencePlayback;
-     
+    private RhythmFileWriter rhythmFileWriter;
+    
     /**
      * Creates new form MainFrame
      */
@@ -61,7 +65,7 @@ public class MainFrame extends javax.swing.JFrame {
         togglePlayback  = false;
         currentNote =  0; // 24 = C contra
         currentOctave = 0;
-        
+        rhythmFileWriter = new RhythmFileWriter(new File("plik.bin"));
     }
 
     /**
@@ -104,6 +108,7 @@ public class MainFrame extends javax.swing.JFrame {
         octaveSelectComboBox = new javax.swing.JComboBox<>();
         patternOrderSpinner = new javax.swing.JSpinner();
         orderLabel = new javax.swing.JLabel();
+        saveFileButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         fileMenuOpen = new javax.swing.JMenuItem();
@@ -364,6 +369,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         orderLabel.setText("Order in seq.");
 
+        saveFileButton.setText("Save file");
+        saveFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveFileButtonActionPerformed(evt);
+            }
+        });
+
         fileMenu.setText("File");
 
         fileMenuOpen.setText("Open rhythm");
@@ -402,8 +414,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(playSequenceButton)
-                        .addGap(58, 58, 58)
+                        .addGap(18, 18, 18)
                         .addComponent(saveSequenceButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(saveFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -518,7 +532,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(playSequenceButton)
-                    .addComponent(saveSequenceButton))
+                    .addComponent(saveSequenceButton)
+                    .addComponent(saveFileButton))
                 .addGap(18, 18, 18)
                 .addComponent(sequenceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(269, 269, 269))
@@ -528,7 +543,16 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void fileMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuOpenActionPerformed
-        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        "RTH files", "bin", "rth");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File currentFile = chooser.getSelectedFile();
+            rhythmFileWriter.setFile(currentFile);
+            rhythmFileWriter.readSequence(currentSequence);
+        }
     }//GEN-LAST:event_fileMenuOpenActionPerformed
 
     private void fileMenuCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuCloseActionPerformed
@@ -708,7 +732,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void instrumentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instrumentComboBoxActionPerformed
        
-        MidiInstrument instrument = MidiInstrument.getInstrument(instrumentComboBox.getSelectedIndex());
+        MidiInstrument instrument = MidiInstrument.getInstrumentByIndex(instrumentComboBox.getSelectedIndex());
         instrumentLabel.setBackground(instrument.getBackground());
         instrumentLabel.setForeground(instrument.getForeground());
         instrumentLabel.setOpaque(true);
@@ -867,6 +891,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void selectPatternComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectPatternComboBoxItemStateChanged
               
     }//GEN-LAST:event_selectPatternComboBoxItemStateChanged
+
+    private void saveFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFileButtonActionPerformed
+        rhythmFileWriter.writeSequence(currentSequence);
+    }//GEN-LAST:event_saveFileButtonActionPerformed
     
         
     private void setRhythmTableModel(){
@@ -969,6 +997,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel resolutionLabel;
     private javax.swing.JLabel rightFootLabel;
     private javax.swing.JLabel rightHandLabel;
+    private javax.swing.JButton saveFileButton;
     private javax.swing.JButton savePatternButton;
     private javax.swing.JButton saveSequenceButton;
     private javax.swing.JComboBox selectPatternComboBox;

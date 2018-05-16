@@ -111,10 +111,12 @@ public class Pattern implements Serializable {
     }
     
     public void addEvent(int index,MidiEvent evt){
-        if(eventList.get(index) != null)
-            eventList.set(index, evt);
-        else
-            eventList.add(index,evt);
+        try{
+           eventList.set(index, evt);        
+           
+        }catch(IndexOutOfBoundsException ex){
+           eventList.add(index,evt); 
+        }
     }
     
     public boolean hasEvents() {

@@ -79,7 +79,7 @@ public enum MidiInstrument {
         };
     }
   
-     public static MidiInstrument getInstrument(int index) {       
+     public static MidiInstrument getInstrumentByIndex(int index) {       
         for(MidiInstrument d:MidiInstrument.values()){
             if(d.getValue() == index)
                 return d;
@@ -88,6 +88,17 @@ public enum MidiInstrument {
         return BASS_GUITAR;   
     }
 
+    public static MidiInstrument getInstrumentByMidiValue(int mv,int part) {  
+        if(part == 4)
+            return BASS_GUITAR; 
+        for(MidiInstrument d:MidiInstrument.values()){
+            if(d.getMidiValue() == mv)
+                return d;
+        }              
+        return MidiInstrument.NONE;
+        
+    }
+    
     public int getMidiValue() {
         return this.midiValue;
     }

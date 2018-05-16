@@ -14,16 +14,17 @@ import java.util.Objects;
  */
 public class MidiEvent extends Event{
    
-    private final MidiInstrument instrument;
+    private MidiInstrument instrument;
     
     public MidiEvent(){
        this.instrument = MidiInstrument.NONE;
        super.setInstrument(MidiInstrument.NONE.getValue());
+       super.setMidiValue(instrument.getMidiValue());
     }
     
     
     public MidiEvent(int index,int part,int pos,int note,int oct){
-        this.instrument = MidiInstrument.getInstrument(index);
+        this.instrument = MidiInstrument.getInstrumentByIndex(index);
         super.setMidiValue(instrument.getMidiValue());
         super.setInstrument(index);
         super.setPart(part);
@@ -50,5 +51,9 @@ public class MidiEvent extends Event{
         hash = 89 * hash + super.getMidiValue();
         hash = 89 * hash + Objects.hashCode(this.instrument);
         return hash;
+    }
+
+    public void setInstrument(MidiInstrument ins) {
+        this.instrument = ins;
     }
 }
