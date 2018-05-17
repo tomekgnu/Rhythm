@@ -6,21 +6,18 @@
 package rhythm;
 
 import com.sun.corba.se.impl.ior.ByteBuffer;
-import dao.Pattern;
-import dao.PatternSequence;
-import java.io.BufferedReader;
+import model.Pattern;
+import model.PatternSequence;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import misc.MidiEvent;
-import misc.MidiInstrument;
-import static rhythm.MainClass.br;
+import model.MidiEvent;
+import model.MidiInstrument;
 
 /**
  *
@@ -140,6 +137,7 @@ public class RhythmFileWriter {
                     for(int i = 0; i < count; i++){
                         MidiEvent e = new MidiEvent();
                         MidiInstrument ins = MidiInstrument.getInstrumentByMidiValue(header[i], i % 5);
+                        System.out.println(ins);
                         e.setInstrument(ins);
                         e.setMidiValue((int)header[i]);                        
                         p.addEvent(i, e);

@@ -3,16 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/dao/Pattern.java</file>
+            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/rhythm/Playback.java</file>
+            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/model/MidiInstrument.java</file>
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/rhythm/JSequenceTable.java</file>
+            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/model/PatternSequence.java</file>
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/rhythm/RhythmFileWriter.java</file>
-            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/rhythm/MainClass.java</file>
-            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/dao/PatternSequence.java</file>
+            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/model/Pattern.java</file>
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/rhythm/MainFrame.java</file>
             <file>file:/C:/Users/Tomek/workspace/Rhythm/src/rhythm/JPatternComboBox.java</file>
-            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/dao/Event.java</file>
-            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/misc/MidiEvent.java</file>
-            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/misc/MidiInstrument.java</file>
+            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/model/MidiEvent.java</file>
+            <file>file:/C:/Users/Tomek/workspace/Rhythm/src/misc/UtilClass.java</file>
         </group>
     </open-files>
 </project-private>

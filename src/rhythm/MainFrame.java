@@ -5,12 +5,11 @@
  */
 package rhythm;
 
-import dao.Pattern;
-import dao.PatternSequence;
-import misc.MidiEvent;
-import misc.MidiInstrument;
+import model.Pattern;
+import model.PatternSequence;
+import model.MidiEvent;
+import model.MidiInstrument;
 import misc.UsbWriter;
-import dao.Song;
 import java.awt.Color;
 import java.awt.Component;
 import static java.awt.event.MouseEvent.BUTTON1;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -36,10 +34,7 @@ import misc.ComboBoxRenderer;
  * @author Tomek
  */
 public class MainFrame extends javax.swing.JFrame {
-    private EntityManagerFactory emf;
-    private EntityManager em;
     private final boolean usbResult;
-    public static Song currentSong;
     public static PatternSequence currentSequence;
     public static Pattern currentPattern;
     private List<Pattern> patternList;
@@ -54,9 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
-        emf = Persistence.createEntityManagerFactory("RhythmPU");
-        em = emf.createEntityManager();
+    public MainFrame() {        
         initComponents();
         usbResult = UsbWriter.init("COM4","Rhythm");
         currentSequence = new PatternSequence();
@@ -171,7 +164,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         patternScrollPane.setViewportView(patternTable);
 
-        instrumentComboBox.setModel(new javax.swing.DefaultComboBoxModel<String>(misc.MidiInstrument.displayValues()));
+        instrumentComboBox.setModel(new javax.swing.DefaultComboBoxModel<String>(model.MidiInstrument.displayValues()));
         instrumentComboBox.setOpaque(false);
         instrumentComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -551,7 +544,11 @@ public class MainFrame extends javax.swing.JFrame {
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File currentFile = chooser.getSelectedFile();
             rhythmFileWriter.setFile(currentFile);
+            currentSequence.getPatternList().clear();
             rhythmFileWriter.readSequence(currentSequence);
+            currentPattern = currentSequence.getPatternAt(0);
+            setRhythmTableModel(currentPattern);
+            patternTable.repaint();
         }
     }//GEN-LAST:event_fileMenuOpenActionPerformed
 
@@ -570,12 +567,9 @@ public class MainFrame extends javax.swing.JFrame {
         int column = patternTable.getSelectedColumn();
         int index = instrumentComboBox.getSelectedIndex();
         int rowCount = patternTable.getRowCount();
-        int columnCount = patternTable.getColumnCount();
         int listIndex = column * rowCount + row;        
         currentEvent = new MidiEvent(index,row,column,currentNote,currentOctave);
-        currentEvent.setInstrument(index);
-        currentEvent.setPart(row);
-        currentEvent.setPosition(column);
+        
         // validate if instruments are assigned to correct part of         
             switch (row) {
                 // hands
@@ -896,7 +890,19 @@ public class MainFrame extends javax.swing.JFrame {
         rhythmFileWriter.writeSequence(currentSequence);
     }//GEN-LAST:event_saveFileButtonActionPerformed
     
-        
+    private void setRhythmTableModel(Pattern tmp){
+        if(tmp == null)
+            return;
+        int beats = tmp.getBeats();
+        int division = tmp.getDivision();
+        int duration = tmp.getBeatTime();
+        divisionComboBox.setSelectedItem(division);
+        timeSpinner.setValue(duration);
+        numberOfBeats.setSelectedItem(beats);
+        patternTable.setModel(new javax.swing.table.DefaultTableModel(5,beats * division ));
+        patternTable.repaint();
+    }   
+    
     private void setRhythmTableModel(){
         int division = Integer.parseInt(divisionComboBox.getSelectedItem().toString());
         int beats = Integer.parseInt(numberOfBeats.getSelectedItem().toString());
@@ -959,9 +965,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     // window closing handler
         WindowListener wl = new WindowAdapter(){
-            public void windowClosing(WindowEvent e){
-                em.close();
-                emf.close();
+            public void windowClosing(WindowEvent e){                
                 UsbWriter.deInit();
             }
         };

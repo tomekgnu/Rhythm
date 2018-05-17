@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package misc;
+package model;
 
 import java.awt.Color;
 
@@ -89,9 +89,13 @@ public enum MidiInstrument {
     }
 
     public static MidiInstrument getInstrumentByMidiValue(int mv,int part) {  
+        if(mv == 0)
+            return MidiInstrument.NONE;
         if(part == 4)
             return BASS_GUITAR; 
         for(MidiInstrument d:MidiInstrument.values()){
+            if(d == BASS_GUITAR)
+                continue;
             if(d.getMidiValue() == mv)
                 return d;
         }              

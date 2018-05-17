@@ -5,12 +5,12 @@
  */
 package rhythm;
 
-import dao.Pattern;
-import dao.PatternSequence;
-import misc.MidiEvent;
+import model.Pattern;
+import model.PatternSequence;
+import model.MidiEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import misc.MidiInstrument;
+import model.MidiInstrument;
 import misc.UsbWriter;
 
 /**

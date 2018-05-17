@@ -3,40 +3,43 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package misc;
+package model;
 
-import dao.Event;
 import java.util.Objects;
 
 /**
  *
  * @author Tomek
  */
-public class MidiEvent extends Event{
+public class MidiEvent {
    
     private MidiInstrument instrument;
+    private int midiValue;
+    private Integer part;
+    private Integer position;
     
     public MidiEvent(){
-       this.instrument = MidiInstrument.NONE;
-       super.setInstrument(MidiInstrument.NONE.getValue());
-       super.setMidiValue(instrument.getMidiValue());
+       this.instrument = MidiInstrument.NONE;       
+       this.midiValue = 0;
     }
-    
     
     public MidiEvent(int index,int part,int pos,int note,int oct){
         this.instrument = MidiInstrument.getInstrumentByIndex(index);
-        super.setMidiValue(instrument.getMidiValue());
-        super.setInstrument(index);
-        super.setPart(part);
-        super.setPosition(pos);
+        this.midiValue = instrument.getMidiValue();
+        this.part = part;
+        this.position = pos;
         if(instrument == MidiInstrument.BASS_GUITAR)
-            super.setMidiValue(note + 24 + (oct * 12));
+            midiValue = note + 24 + (oct * 12);
     }
     
    
     public MidiInstrument getMidiInstrument(){
        return this.instrument;
     }    
+    
+    public int getMidiValue(){
+        return this.midiValue;
+    }
     
     @Override
     public boolean equals(Object e){
@@ -48,11 +51,15 @@ public class MidiEvent extends Event{
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 89 * hash + super.getMidiValue();
+        hash = 89 * hash + midiValue;
         hash = 89 * hash + Objects.hashCode(this.instrument);
         return hash;
     }
 
+    public void setMidiValue(int mv){
+        this.midiValue = mv;
+    }
+    
     public void setInstrument(MidiInstrument ins) {
         this.instrument = ins;
     }

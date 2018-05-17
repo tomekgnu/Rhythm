@@ -311,7 +311,7 @@
     <Component class="javax.swing.JComboBox" name="instrumentComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;String&gt;(misc.MidiInstrument.displayValues())" type="code"/>
+          <Connection code="new javax.swing.DefaultComboBoxModel&lt;String&gt;(model.MidiInstrument.displayValues())" type="code"/>
         </Property>
         <Property name="opaque" type="boolean" value="false"/>
       </Properties>

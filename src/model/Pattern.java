@@ -3,46 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlRootElement;
-import misc.MidiEvent;
 
 /**
  *
  * @author Tomek
  */
-@Entity
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Pattern.findAll", query = "SELECT p FROM Pattern p")
-    , @NamedQuery(name = "Pattern.findById", query = "SELECT p FROM Pattern p WHERE p.id = :id")
-    , @NamedQuery(name = "Pattern.findByBeats", query = "SELECT p FROM Pattern p WHERE p.beats = :beats")
-    , @NamedQuery(name = "Pattern.findByBeatTime", query = "SELECT p FROM Pattern p WHERE p.beatTime = :beatTime")})
-public class Pattern implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-   
+public class Pattern  {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private Integer beats; 
     private Integer division;
     private Integer beatTime;
-    private Integer position;
-    
-    @OneToMany( targetEntity=Event.class )
+    private Integer position;   
     private List eventList;
     
     public Pattern() {
@@ -53,14 +29,6 @@ public class Pattern implements Serializable {
         eventList = new ArrayList();
         for(int i = 0; i < eventNumber; i++)
             eventList.add(i,new MidiEvent());
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Integer getBeats() {
@@ -122,28 +90,7 @@ public class Pattern implements Serializable {
     public boolean hasEvents() {
         return eventList.size() > 0;
     }
-    
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pattern)) {
-            return false;
-        }
         
-        return this.id.equals(((Integer)object));
-    }
-
-    @Override
-    public String toString() {
-        return "Pattern";
-    }
-
-    
     
     
 }
