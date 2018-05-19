@@ -43,7 +43,8 @@ public class Playback extends Thread {
         PatternSequence seq = MainFrame.currentSequence;
         int patIndex = 0;
         if(playback == Playback.PATTERN && pat.hasEvents()){
-            while(execute){                
+            while(execute){ 
+                setTime(pat.getBeatTime(),pat.getDivision(),pat.getBeats());
                 playEvents(pat);
             }            
         }

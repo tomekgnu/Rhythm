@@ -19,8 +19,6 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -105,6 +103,7 @@ public class MainFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         fileMenuOpen = new javax.swing.JMenuItem();
+        fileMenuAdd = new javax.swing.JMenuItem();
         fileMenuClose = new javax.swing.JMenuItem();
         fileMenuSave = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
@@ -379,6 +378,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         fileMenu.add(fileMenuOpen);
 
+        fileMenuAdd.setText("Add rhythm");
+        fileMenuAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileMenuAddActionPerformed(evt);
+            }
+        });
+        fileMenu.add(fileMenuAdd);
+
         fileMenuClose.setText("Close rhythm");
         fileMenuClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -422,7 +429,8 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(rightFootLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(bassGuitarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(patternScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 906, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(patternScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 857, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -544,11 +552,26 @@ public class MainFrame extends javax.swing.JFrame {
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File currentFile = chooser.getSelectedFile();
             rhythmFileWriter.setFile(currentFile);
+            patternList.clear();
             currentSequence.getPatternList().clear();
             rhythmFileWriter.readSequence(currentSequence);
             currentPattern = currentSequence.getPatternAt(0);
-            setRhythmTableModel(currentPattern);
+            setRhythmTableModel(currentPattern);             
             patternTable.repaint();
+            
+            // fill in patten select box and sequence table            
+            for(int index = 0; index < currentSequence.getPatternList().size(); index++){
+                patternList.add(index,(Pattern)currentSequence.getPatternList().get(index));
+                int x = index / sequenceTable.getColumnCount(); // row
+                int y = index % sequenceTable.getColumnCount(); // column        
+                sequenceTable.setValueAt(index, x, y);
+            }
+            String[] array = new String[patternList.size() + 1];
+            for (int i = 0; i < patternList.size(); i++) {
+                array[i] = patternList.get(i).toString() + " " + Integer.toString(i);
+            }
+            array[patternList.size()] = "New";
+            selectPatternComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(array));
         }
     }//GEN-LAST:event_fileMenuOpenActionPerformed
 
@@ -662,11 +685,11 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void divisionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_divisionComboBoxActionPerformed
-        setRhythmTableModel();
-        if(patternPlayback != null)
-            patternPlayback.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
-                    Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
-                    Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
+        setRhythmTableModel();        
+        currentPattern.setBeatTime(Integer.parseInt(timeSpinner.getValue().toString()));
+        currentPattern.setDivision(Integer.parseInt(divisionComboBox.getSelectedItem().toString()));
+        currentPattern.setBeats(Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
+            
     }//GEN-LAST:event_divisionComboBoxActionPerformed
 
     private void divisionComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_divisionComboBoxItemStateChanged
@@ -683,9 +706,9 @@ public class MainFrame extends javax.swing.JFrame {
         if(togglePlayback == true){
             playPatternButton.setText("Stop");
             patternPlayback = new Playback(Playback.PATTERN);
-            patternPlayback.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
-                    Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
-                    Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
+            currentPattern.setBeatTime(Integer.parseInt(timeSpinner.getValue().toString()));
+            currentPattern.setDivision(Integer.parseInt(divisionComboBox.getSelectedItem().toString()));
+            currentPattern.setBeats(Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
             patternPlayback.start();
         }
         else{
@@ -705,9 +728,9 @@ public class MainFrame extends javax.swing.JFrame {
         if(togglePlayback == true){
             playSequenceButton.setText("Stop");
             patternPlayback = new Playback(Playback.SEQUENCE);
-            patternPlayback.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
-                    Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
-                    Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
+            currentPattern.setBeatTime(Integer.parseInt(timeSpinner.getValue().toString()));
+            currentPattern.setDivision(Integer.parseInt(divisionComboBox.getSelectedItem().toString()));
+            currentPattern.setBeats(Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
             patternPlayback.start();
         }
         else{
@@ -751,12 +774,12 @@ public class MainFrame extends javax.swing.JFrame {
         
         try{
             Pattern tmp = patternList.get(index);
-            int beats = tmp.getBeats();
-            int division = tmp.getDivision();
-            int duration = tmp.getBeatTime();
-            divisionComboBox.setSelectedItem(division);
+            Integer beats = tmp.getBeats();
+            Integer division = tmp.getDivision();
+            Integer duration = tmp.getBeatTime();
+            divisionComboBox.setSelectedItem(division.toString());
             timeSpinner.setValue(duration);
-            numberOfBeats.setSelectedItem(beats);
+            numberOfBeats.setSelectedItem(beats.toString());
             patternTable.setModel(new javax.swing.table.DefaultTableModel(5,beats * division ));
             currentPattern = tmp;
         }catch(IndexOutOfBoundsException ex){
@@ -773,10 +796,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_timeSpinnerMouseClicked
 
     private void timeSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_timeSpinnerStateChanged
-        if(patternPlayback != null)
-            patternPlayback.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
-                    Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
-                    Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
+        currentPattern.setBeatTime(Integer.parseInt(timeSpinner.getValue().toString()));
+        currentPattern.setDivision(Integer.parseInt(divisionComboBox.getSelectedItem().toString()));
+        currentPattern.setBeats(Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
     }//GEN-LAST:event_timeSpinnerStateChanged
 
     private void noteSelectComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noteSelectComboBoxActionPerformed
@@ -889,18 +911,38 @@ public class MainFrame extends javax.swing.JFrame {
     private void saveFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFileButtonActionPerformed
         rhythmFileWriter.writeSequence(currentSequence);
     }//GEN-LAST:event_saveFileButtonActionPerformed
+
+    private void fileMenuAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuAddActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        "RTH files", "bin", "rth");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File currentFile = chooser.getSelectedFile();
+            rhythmFileWriter.setFile(currentFile);
+            PatternSequence tmpseq = new PatternSequence();
+            rhythmFileWriter.readSequence(tmpseq);
+            currentSequence.getPatternList().addAll(tmpseq.getPatternList());
+            currentPattern = currentSequence.getPatternAt(0);
+            setRhythmTableModel(currentPattern);             
+            patternTable.repaint();
+        }
+    }//GEN-LAST:event_fileMenuAddActionPerformed
     
     private void setRhythmTableModel(Pattern tmp){
         if(tmp == null)
             return;
-        int beats = tmp.getBeats();
-        int division = tmp.getDivision();
-        int duration = tmp.getBeatTime();
-        divisionComboBox.setSelectedItem(division);
+        
+        Integer beats = tmp.getBeats();
+        Integer division = tmp.getDivision();
+        Integer duration = tmp.getBeatTime();
+        divisionComboBox.setSelectedItem(division.toString());
         timeSpinner.setValue(duration);
-        numberOfBeats.setSelectedItem(beats);
+        numberOfBeats.setSelectedItem(beats.toString());
         patternTable.setModel(new javax.swing.table.DefaultTableModel(5,beats * division ));
-        patternTable.repaint();
+        currentPattern = tmp;       
+       
     }   
     
     private void setRhythmTableModel(){
@@ -909,9 +951,9 @@ public class MainFrame extends javax.swing.JFrame {
         int beatTime = Integer.parseInt(timeSpinner.getValue().toString());
         int cols = division * beats;
         int cells = cols * 5;   // all table cells
-        if(cols > 32){
-            cols = 32;
-            beats = 32;
+        if(cols > 120){
+            cols = 120;
+            beats = 120;
             division = 1;
             divisionComboBox.setSelectedIndex(0);
         }
@@ -978,6 +1020,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel drumPatternLabel;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem fileMenuAdd;
     private javax.swing.JMenuItem fileMenuClose;
     private javax.swing.JMenuItem fileMenuOpen;
     private javax.swing.JMenuItem fileMenuSave;

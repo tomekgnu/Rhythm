@@ -91,6 +91,9 @@ public class Pattern  {
         return eventList.size() > 0;
     }
         
-    
+    @Override
+    public String toString(){
+        return "Pattern";
+    }
     
 }

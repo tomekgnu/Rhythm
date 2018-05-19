@@ -137,7 +137,6 @@ public class RhythmFileWriter {
                     for(int i = 0; i < count; i++){
                         MidiEvent e = new MidiEvent();
                         MidiInstrument ins = MidiInstrument.getInstrumentByMidiValue(header[i], i % 5);
-                        System.out.println(ins);
                         e.setInstrument(ins);
                         e.setMidiValue((int)header[i]);                        
                         p.addEvent(i, e);

@@ -17,6 +17,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fileMenuOpenActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="fileMenuAdd">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Add rhythm"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fileMenuAddActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="fileMenuClose">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Close rhythm"/>
@@ -96,7 +104,8 @@
                           <Component id="bassGuitarLabel" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="patternScrollPane" min="-2" pref="906" max="-2" attributes="0"/>
+                      <Component id="patternScrollPane" min="-2" pref="857" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
