@@ -2,6 +2,51 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
+    <Container class="javax.swing.JPopupMenu" name="insertPatternPopup">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="choosePattern">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Choose pattern"/>
+            <Property name="actionCommand" type="java.lang.String" value="choosePattern"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="choosePatternMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="choosePatternActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="removePattern">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Clear pattern"/>
+            <Property name="actionCommand" type="java.lang.String" value="removePattern"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removePatternActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="insertOneBefore">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Insert empty before"/>
+            <Property name="actionCommand" type="java.lang.String" value="insertPatternBefore"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="insertOneBeforeActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="insertOneAfter">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Insert empty after"/>
+            <Property name="actionCommand" type="java.lang.String" value="insertOneAfter"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="insertOneAfterActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
     <Menu class="javax.swing.JMenuBar" name="menuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="fileMenu">
@@ -84,38 +129,23 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="leftHandLabel" max="32767" attributes="0"/>
+                  <Component id="rightHandLabel" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="playSequenceButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="saveSequenceButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="saveFileButton" min="-2" pref="99" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="leftFootLabel" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="leftHandLabel" max="32767" attributes="0"/>
-                          <Component id="rightHandLabel" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="leftFootLabel" pref="63" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="rightFootLabel" alignment="0" max="32767" attributes="0"/>
-                          <Component id="bassGuitarLabel" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="patternScrollPane" min="-2" pref="857" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="rightFootLabel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="bassGuitarLabel" alignment="0" max="32767" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="patternScrollPane" min="-2" pref="857" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="drumPatternLabel" min="-2" pref="128" max="-2" attributes="0"/>
-                  <Component id="sequenceScrollPane" min="-2" pref="303" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="drumPatternLabel" min="-2" pref="128" max="-2" attributes="0"/>
+              <EmptySpace pref="887" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -153,17 +183,32 @@
                       <Component id="playPatternButton" min="-2" pref="107" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="savePatternButton" min="-2" pref="107" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="orderLabel" max="32767" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="patternOrderSpinner" min="-2" pref="54" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="instrumentLabel" min="-2" pref="63" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="selectPatternLabel" min="-2" pref="83" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="410" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="sequenceScrollPane" alignment="0" pref="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="playSequenceButton" min="-2" pref="101" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="saveSequenceButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="saveFileButton" min="-2" pref="109" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                      <Component id="selectSequencePatternComboBox" min="-2" pref="114" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="repeatPatternSpinner" min="-2" pref="100" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="setPatternButton" min="-2" pref="99" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -211,8 +256,6 @@
                           <Component id="selectPatternComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="playPatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="savePatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="orderLabel" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="patternOrderSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -223,17 +266,24 @@
                   <Component id="octaveLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="octaveSelectComboBox" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Component id="paneSeparator" min="-2" pref="0" max="-2" attributes="0"/>
-              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="playSequenceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="saveSequenceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="saveFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="sequenceScrollPane" min="-2" pref="88" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="269" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="sequenceScrollPane" min="-2" pref="88" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="selectSequencePatternComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="repeatPatternSpinner" alignment="3" max="32767" attributes="0"/>
+                      <Component id="setPatternButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="365" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -662,19 +712,47 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JSpinner" name="patternOrderSpinner">
-    </Component>
-    <Component class="javax.swing.JLabel" name="orderLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Order in seq."/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="saveFileButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Save file"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveFileButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="selectSequencePatternComboBox">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="selectSequencePatternComboBoxItemStateChanged"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="selectSequencePatternComboBoxMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectSequencePatternComboBoxActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JPatternComboBox()"/>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="repeatPatternSpinner">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="1" type="code"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="repeatPatternSpinnerStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="setPatternButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="OK"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="setPatternButtonMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="setPatternButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

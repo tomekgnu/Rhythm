@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license buffer, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -43,18 +43,27 @@ public class RhythmFileWriter {
                 int beats = p.getBeats();
                 int division = p.getDivision();
                 int beatTime = p.getBeatTime();
+                int repeat = p.getRepeat();
+                
                 buffer.append(new Integer(beats).byteValue());
                 buffer.append(new Integer(beats >> 8).byteValue());
                 buffer.append(new Integer(beats >> 16).byteValue());
                 buffer.append(new Integer(beats >> 24).byteValue());
+                
                 buffer.append(new Integer(division).byteValue());
                 buffer.append(new Integer(division >> 8).byteValue());
                 buffer.append(new Integer(division >> 16).byteValue());
                 buffer.append(new Integer(division >> 24).byteValue());
+                
                 buffer.append(new Integer(beatTime).byteValue());
                 buffer.append(new Integer(beatTime >> 8).byteValue());
                 buffer.append(new Integer(beatTime >> 16).byteValue());
                 buffer.append(new Integer(beatTime >> 24).byteValue());                
+                
+                buffer.append(new Integer(repeat).byteValue());
+                buffer.append(new Integer(repeat >> 8).byteValue());
+                buffer.append(new Integer(repeat >> 16).byteValue());
+                buffer.append(new Integer(repeat >> 24).byteValue());
                 
                 for(Object e:p.getEventList()){
                     int midiValue = ((MidiEvent)e).getMidiValue();
@@ -112,7 +121,7 @@ public class RhythmFileWriter {
         
         if(rhythmFile != null){
             try {
-                byte[] header = new byte[12];
+                byte[] buffer = new byte[16];
                 fis = new FileInputStream(rhythmFile);
                 int patternIndex = 0;
                 int offset = 0;
@@ -121,24 +130,27 @@ public class RhythmFileWriter {
                 int beats = 0;
                 int division = 0;
                 int beatTime = 0;
+                int repeat = 0;
                 while(fis.available() > 0){
                     Pattern p = new Pattern();
-                    fis.read(header,0,12);
-                    beats = getUnsignedInt(header[0],header[1],header[2],header[3]);
-                    division = getUnsignedInt(header[4],header[5],header[6],header[7]);
-                    beatTime = getUnsignedInt(header[8],header[9],header[10],header[11]);
+                    fis.read(buffer,0,16);
+                    beats = getUnsignedInt(buffer[0],buffer[1],buffer[2],buffer[3]);
+                    division = getUnsignedInt(buffer[4],buffer[5],buffer[6],buffer[7]);
+                    beatTime = getUnsignedInt(buffer[8],buffer[9],buffer[10],buffer[11]);
+                    repeat = getUnsignedInt(buffer[12],buffer[13],buffer[14],buffer[15]);
                     p.setBeats(beats);
                     p.setDivision(division);
-                    p.setBeatTime(beatTime);                   
-                    offset += 12;
+                    p.setBeatTime(beatTime);
+                    p.setRepeat(repeat);
+                    offset += 16;
                     count = 5 * beats * division;
-                    header = new byte[count];
-                    fis.read(header,0,count);
+                    buffer = new byte[count];
+                    fis.read(buffer,0,count);
                     for(int i = 0; i < count; i++){
                         MidiEvent e = new MidiEvent();
-                        MidiInstrument ins = MidiInstrument.getInstrumentByMidiValue(header[i], i % 5);
+                        MidiInstrument ins = MidiInstrument.getInstrumentByMidiValue(buffer[i], i % 5);
                         e.setInstrument(ins);
-                        e.setMidiValue((int)header[i]);                        
+                        e.setMidiValue((int)buffer[i]);                        
                         p.addEvent(i, e);
                     }
                     seq.addPattern(patternIndex++,p);

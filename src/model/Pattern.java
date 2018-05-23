@@ -13,22 +13,53 @@ import java.util.List;
  * @author Tomek
  */
 
-public class Pattern  {
-    
+public class Pattern  implements Cloneable{
+    private Integer ID;
+    private String name;
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     private Integer beats; 
     private Integer division;
     private Integer beatTime;
-    private Integer position;   
+    private Integer repeat;   
     private List eventList;
     
     public Pattern() {
         eventList = new ArrayList();
+        ID = 0;
+        repeat = 1;
     }    
 
+    public Pattern(Pattern p){
+        eventList = p.eventList;
+        this.ID = p.ID;
+        this.beatTime = p.beatTime;
+        this.beats = p.beats;
+        this.division = p.division;
+        
+    }
+    
     public Pattern(int eventNumber) {
         eventList = new ArrayList();
+        ID = 0;
         for(int i = 0; i < eventNumber; i++)
             eventList.add(i,new MidiEvent());
+        
+        repeat = 1;
     }
 
     public Integer getBeats() {
@@ -36,12 +67,12 @@ public class Pattern  {
     }
 
        
-    public void setPosition(Integer num){
-        this.position = num;
+    public void setRepeat(Integer num){
+        this.repeat = num;
     }
     
-    public Integer getPosition(){
-        return this.position;
+    public Integer getRepeat(){
+        return this.repeat;
     }
     
     public void setBeats(Integer beats) {
@@ -93,7 +124,11 @@ public class Pattern  {
         
     @Override
     public String toString(){
-        return "Pattern";
+        return "Pattern " + this.ID;
     }
     
+   
+    public Pattern copy()  {
+        return new Pattern(this);
+    }
 }
