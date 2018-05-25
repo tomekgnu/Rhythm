@@ -985,12 +985,13 @@ public class MainFrame extends javax.swing.JFrame {
             currentPattern.setBeatTime(Integer.parseInt(timeSpinner.getValue().toString()));
             currentPattern.setBeats(Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
             currentPattern.setDivision(Integer.parseInt(divisionComboBox.getSelectedItem().toString()));
-            currentPattern.save();
             patternList.set(index,currentPattern);
         }
         catch(IndexOutOfBoundsException ex){
             System.out.println("savePatternButtonMouseClicked " + ex.getMessage());
+            currentPattern.incrementID();
             patternList.add(index,currentPattern);
+            
         } 
         
         // pattern list with New item
