@@ -129,7 +129,7 @@ public class Pattern  implements Cloneable{
         return "Pattern " + this.ID;
     }
     
-    public void save(){
+    public void incrementID(){
         Pattern.globalID++;
     }
    
