@@ -865,11 +865,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_instrumentComboBoxActionPerformed
 
     private void selectPatternComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectPatternComboBoxActionPerformed
-        int index = selectPatternComboBox.getSelectedIndex(); 
+        int index = selectPatternComboBox.getSelectedIndex();         
         if(selectPatternComboBox.getSelectedItem().toString().equals("New")){
+            index = selectPatternComboBox.getSelectedIndex();            
             setRhythmTableModel(); 
-            currentPattern.setID(index);
-            System.out.println(patternList.size());            
         }
         
         try{
@@ -946,30 +945,36 @@ public class MainFrame extends javax.swing.JFrame {
        int totalPatterns = ((JSequenceTable)sequenceTable).getTotalPatterns();
        int index = row * columns + col;
        Pattern p = null;
-       try{
-            p = patternList.get(index);
-            selectSequencePatternComboBox.setSelectedIndex(index);
-            ((JSequenceTable)sequenceTable).setListIndex(index);
-            repeatPatternSpinner.setValue(p.getRepeat());
-       }catch(IndexOutOfBoundsException ex){
-           System.out.println("Index does not exist: " + index);
+       if(index > ((JSequenceTable)sequenceTable).getTotalPatterns() || patternList.isEmpty()){
+            System.out.println(index + " " + totalPatterns);
+            return;
        }
-        switch(evt.getButton()){ 
-            case BUTTON1:  if(p != null)                            
-                                System.out.println(p.getID() + " " + p.getRepeat());
+       ((JSequenceTable)sequenceTable).setListIndex(index);
+       ((JSequenceTable)sequenceTable).setCurrentRow(row);
+       ((JSequenceTable)sequenceTable).setCurrentColumn(col);
+       
+       try{
+            p = currentSequence.getPatternAt(index);
+        }catch(IndexOutOfBoundsException ex){
+            System.out.println("Index does not exist: " + index);  
+       } 
+       
+       switch(evt.getButton()){ 
+            case BUTTON1:   
+                            if(p == null)
+                                return;
+                            p = currentSequence.getPatternAt(index);           
+                            selectSequencePatternComboBox.setSelectedIndex(p.getID());
+                            ((JSequenceTable)sequenceTable).setListIndex(index);
+                            repeatPatternSpinner.setValue(p.getRepeat());
                             break;
             case BUTTON3:   int x = pnt.x;
                             int y = pnt.y;
-                            if(index > ((JSequenceTable)sequenceTable).getTotalPatterns() || patternList.isEmpty()){
-                                System.out.println(index + " " + totalPatterns);
-                                return;
-                            }
-                            ((JSequenceTable)sequenceTable).setListIndex(index);
-                            ((JSequenceTable)sequenceTable).setCurrentRow(row);
-                            ((JSequenceTable)sequenceTable).setCurrentColumn(col);
-                          insertPatternPopup.show(sequenceTable,x,y);
-                          break; 
-       }
+                            insertPatternPopup.show(sequenceTable,x,y);
+                            break; 
+            }
+       
+               
        
     }//GEN-LAST:event_sequenceTableMouseClicked
     // add pattern to temporary internal list
@@ -980,6 +985,7 @@ public class MainFrame extends javax.swing.JFrame {
             currentPattern.setBeatTime(Integer.parseInt(timeSpinner.getValue().toString()));
             currentPattern.setBeats(Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
             currentPattern.setDivision(Integer.parseInt(divisionComboBox.getSelectedItem().toString()));
+            currentPattern.save();
             patternList.set(index,currentPattern);
         }
         catch(IndexOutOfBoundsException ex){
@@ -1063,19 +1069,19 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void setPatternButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setPatternButtonMouseClicked
 //        try{
-//            currentSequence.insertPattern(index, currentPattern);
+//            currentSequence.insertPattern(patternIndex, currentPattern);
 //        }
 //        catch(IndexOutOfBoundsException ex){
 //            System.out.println("savePatternButtonMouseClicked " + ex.getMessage());
-//            currentSequence.addPattern(index, currentPattern);
+//            currentSequence.addPattern(patternIndex, currentPattern);
 //        }
 //        
-//        ((JPatternComboBox)selectPatternComboBox).setSelection(index);
+//        ((JPatternComboBox)selectPatternComboBox).setSelection(patternIndex);
 //        
-//        int x = index / sequenceTable.getColumnCount(); // row
-//        int y = index % sequenceTable.getColumnCount(); // column
+//        int x = patternIndex / sequenceTable.getColumnCount(); // row
+//        int y = patternIndex % sequenceTable.getColumnCount(); // column
 //        
-//        sequenceTable.setValueAt(index, x, y);
+//        sequenceTable.setValueAt(patternIndex, x, y);
     }//GEN-LAST:event_setPatternButtonMouseClicked
 
     private void insertOneBeforeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertOneBeforeActionPerformed
@@ -1092,11 +1098,12 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_choosePatternMouseClicked
 
     private void setPatternButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPatternButtonActionPerformed
-        int index = selectSequencePatternComboBox.getSelectedIndex();
+        int patternIndex = selectSequencePatternComboBox.getSelectedIndex();
+        int sequenceIndex = ((JSequenceTable)sequenceTable).getListIndex();
         try {
-            Pattern cloned = (Pattern) patternList.get(index).copy();
+            Pattern cloned = (Pattern) patternList.get(patternIndex).copy();
             cloned.setRepeat(Integer.parseInt(repeatPatternSpinner.getValue().toString()));
-            currentSequence.addPattern(index, cloned);
+            currentSequence.addPattern(sequenceIndex, cloned);
         } catch (NumberFormatException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -16,31 +16,20 @@ import java.util.List;
 public class Pattern  implements Cloneable{
     private Integer ID;
     private String name;
-
-    public Integer getID() {
-        return ID;
-    }
-
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
     private Integer beats; 
     private Integer division;
     private Integer beatTime;
     private Integer repeat;   
     private List eventList;
+    private static Integer globalID = 0;
+
+    public static Integer getGlobalID() {
+        return globalID;
+    }
     
     public Pattern() {
         eventList = new ArrayList();
-        ID = 0;
+        ID = globalID;
         repeat = 1;
     }    
 
@@ -50,17 +39,30 @@ public class Pattern  implements Cloneable{
         this.beatTime = p.beatTime;
         this.beats = p.beats;
         this.division = p.division;
-        
+        this.repeat = 1;
     }
     
     public Pattern(int eventNumber) {
         eventList = new ArrayList();
-        ID = 0;
+        ID = globalID;
         for(int i = 0; i < eventNumber; i++)
             eventList.add(i,new MidiEvent());
         
         repeat = 1;
     }
+    
+    public Integer getID() {
+        return ID;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    } 
 
     public Integer getBeats() {
         return beats;
@@ -127,6 +129,9 @@ public class Pattern  implements Cloneable{
         return "Pattern " + this.ID;
     }
     
+    public void save(){
+        Pattern.globalID++;
+    }
    
     public Pattern copy()  {
         return new Pattern(this);

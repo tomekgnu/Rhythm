@@ -39,19 +39,21 @@ public class PatternSequence {
     }
     
     public Pattern getPatternAt(int index){
-        if(patternList.size() > 0)
-            return (Pattern)patternList.get(index);
-        return null;
+        return (Pattern)patternList.get(index);
+        
     }
     
     public void addPattern(int index,Pattern pat){
-        patternList.add(index,pat);
+         try{
+           patternList.set(index, pat);        
+           
+        }catch(IndexOutOfBoundsException ex){
+           patternList.add(index,pat); 
+        }
+                
     }
     
-    public void setPattern(int index,Pattern pat){
-        patternList.set(index,pat);
-    }
-    
+        
     public boolean hasPatterns() {
         return patternList.size() > 0;
     }
