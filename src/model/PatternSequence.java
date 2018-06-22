@@ -15,12 +15,25 @@ import java.util.List;
 
 public class PatternSequence {
 
-    
+    private Integer numOfBytes;
+    private Integer numOfPats;
     private List patternList;    
-    private Integer position;
+    private Integer maxResolution;
+    
+    public Integer getNumOfPats() {
+        return this.numOfPats;
+    }
+
+    public Integer getNumOfBytes() {
+        return numOfBytes;
+    }
+    
     
     public PatternSequence(){
         this.patternList = new ArrayList();
+        numOfBytes = 0;
+        maxResolution = 0;
+        numOfPats = 0;
     }
         
     public List getPatternList(){
@@ -30,21 +43,24 @@ public class PatternSequence {
     public void setPatternList(List list){
         this.patternList = list;
     }
-    public void setPosition(Integer num){
-        this.position = num;
-    }
-    
-    public Integer getPosition(){
-        return this.position;
+        
+    public Integer getMaxResolution(){
+        return this.maxResolution;
     }
     
     public Pattern getPatternAt(int index){
-        return (Pattern)patternList.get(index);
-        
+        return (Pattern)patternList.get(index);        
     }
     
     public void addPattern(int index,Pattern pat){
-         try{
+        int currentEventNumber = pat.getEventList().size();
+        int currentRepeat = pat.getRepeat();
+        int currentResolution = pat.getBeats() * pat.getDivision();
+        if(currentResolution > maxResolution)
+            this.maxResolution = currentResolution;
+        this.numOfBytes += (currentRepeat * (currentEventNumber + 16));
+        this.numOfPats += pat.getRepeat();
+        try{
            patternList.set(index, pat);        
            
         }catch(IndexOutOfBoundsException ex){

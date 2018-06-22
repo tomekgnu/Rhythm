@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import misc.Splitter;
+import misc.UsbWriter;
 import model.MidiEvent;
 import model.MidiInstrument;
 
@@ -37,13 +39,42 @@ public class RhythmFileWriter {
         rhythmFile = fil;
     }
     
+    private void writeHeader(int numPats,int numBytes, int maxResol){
+        try{
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.append(new Integer(numPats).byteValue());
+        buffer.append(new Integer(numPats >> 8).byteValue());
+        buffer.append(new Integer(numPats >> 16).byteValue());
+        buffer.append(new Integer(numPats >> 24).byteValue());
+        
+        buffer.append(new Integer(numBytes).byteValue());
+        buffer.append(new Integer(numBytes >> 8).byteValue());
+        buffer.append(new Integer(numBytes >> 16).byteValue());
+        buffer.append(new Integer(numBytes >> 24).byteValue());
+        
+        buffer.append(new Integer(maxResol).byteValue());
+        buffer.append(new Integer(maxResol >> 8).byteValue());
+        buffer.append(new Integer(maxResol >> 16).byteValue());
+        buffer.append(new Integer(maxResol >> 24).byteValue());
+        buffer.trimToSize();
+        fos.write(buffer.toArray());        
+        fos.flush();
+        UsbWriter.sendBytes(buffer.toArray());
+        System.out.println(buffer.size());
+        }catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+                e.printStackTrace();
+	}
+    }
+    
     private void writePattern(Pattern p){
         try {
 		ByteBuffer buffer = new ByteBuffer();
                 int beats = p.getBeats();
                 int division = p.getDivision();
                 int beatTime = p.getBeatTime();
-                int repeat = p.getRepeat();
+                int id = p.getID();
                 
                 buffer.append(new Integer(beats).byteValue());
                 buffer.append(new Integer(beats >> 8).byteValue());
@@ -60,43 +91,54 @@ public class RhythmFileWriter {
                 buffer.append(new Integer(beatTime >> 16).byteValue());
                 buffer.append(new Integer(beatTime >> 24).byteValue());                
                 
-                buffer.append(new Integer(repeat).byteValue());
-                buffer.append(new Integer(repeat >> 8).byteValue());
-                buffer.append(new Integer(repeat >> 16).byteValue());
-                buffer.append(new Integer(repeat >> 24).byteValue());
+                buffer.append(new Integer(id).byteValue());
+                buffer.append(new Integer(id >> 8).byteValue());
+                buffer.append(new Integer(id >> 16).byteValue());
+                buffer.append(new Integer(id >> 24).byteValue());
+                               
                 
                 for(Object e:p.getEventList()){
                     int midiValue = ((MidiEvent)e).getMidiValue();
                     buffer.append(new Integer(midiValue).byteValue());
                 }
                 
-                buffer.trimToSize();
                 fos.write(buffer.toArray());					
-                fos.flush();
-			
+                fos.flush();                
+                
+                buffer.trimToSize();
+                
+                
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
     }
     
-    public void writeSequence(PatternSequence seq){
+    
+    public void writeSequence(PatternSequence seq){        
         try {
             fos = new FileOutputStream(rhythmFile);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RhythmFileWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
         List<Pattern> patternList = seq.getPatternList();
-        for(Pattern pat:patternList){
-            writePattern(pat);
+        int pats = seq.getNumOfPats();
+        int byts = seq.getNumOfBytes();
+        int maxr = seq.getMaxResolution();
+        writeHeader(pats, byts, maxr);
+        for(Pattern pat:patternList){            
+            int repeat = pat.getRepeat();
+            while(repeat-- > 0)
+                writePattern(pat);                
         }
         
         try {
             fos.flush();
             fos.close();
+            System.out.println(byts);            
         } catch (IOException ex) {
             Logger.getLogger(RhythmFileWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -116,9 +158,7 @@ public class RhythmFileWriter {
        return one | (two << 8) | (three << 16) | (four << 24);
     }
     
-    void readSequence(PatternSequence seq) {
-        
-        
+    void readSequence(PatternSequence seq) {        
         if(rhythmFile != null){
             try {
                 byte[] buffer = new byte[16];
@@ -130,18 +170,18 @@ public class RhythmFileWriter {
                 int beats = 0;
                 int division = 0;
                 int beatTime = 0;
-                int repeat = 0;
+                int id = 0;
                 while(fis.available() > 0){
                     Pattern p = new Pattern();
                     fis.read(buffer,0,16);
                     beats = getUnsignedInt(buffer[0],buffer[1],buffer[2],buffer[3]);
                     division = getUnsignedInt(buffer[4],buffer[5],buffer[6],buffer[7]);
                     beatTime = getUnsignedInt(buffer[8],buffer[9],buffer[10],buffer[11]);
-                    repeat = getUnsignedInt(buffer[12],buffer[13],buffer[14],buffer[15]);
+                    id = getUnsignedInt(buffer[12],buffer[13],buffer[14],buffer[15]);
                     p.setBeats(beats);
                     p.setDivision(division);
                     p.setBeatTime(beatTime);
-                    p.setRepeat(repeat);
+                    p.setID(id);
                     offset += 16;
                     count = 5 * beats * division;
                     buffer = new byte[count];
@@ -164,5 +204,6 @@ public class RhythmFileWriter {
             
             
         }
-    }
+    }    
+    
 }

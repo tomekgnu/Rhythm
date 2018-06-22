@@ -136,4 +136,8 @@ public class Pattern  implements Cloneable{
     public Pattern copy()  {
         return new Pattern(this);
     }
+
+    public void setID(Integer id) {
+        this.ID = id;
+    }
 }

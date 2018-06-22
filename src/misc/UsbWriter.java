@@ -9,7 +9,7 @@ public class UsbWriter {
     private static CommPortIdentifier portId;
     private static SerialPort serialPort;
     private static OutputStream outputStream;
-    
+    private static InputStream inputStream;
 //    public static void main(String[] args){
 //        boolean result = init("COM8","Rhythm");
 //        result = sendBytes("\n".getBytes());
@@ -36,6 +36,7 @@ public class UsbWriter {
                     }
                     try {
                         outputStream = serialPort.getOutputStream();
+                        inputStream = serialPort.getInputStream();
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                         return false;
@@ -62,6 +63,18 @@ public class UsbWriter {
             outputStream.write(stream);
             outputStream.flush();
             outputStream.close();
+        } catch (IOException | NullPointerException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public static boolean receiveBytes(byte[] stream) {
+        try {
+            inputStream.read(stream);
+            inputStream.close();
         } catch (IOException | NullPointerException e) {
             System.out.println(e.getMessage());
             return false;

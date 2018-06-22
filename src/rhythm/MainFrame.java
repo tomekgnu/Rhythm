@@ -111,6 +111,7 @@ public class MainFrame extends javax.swing.JFrame {
         selectSequencePatternComboBox = new JPatternComboBox();
         repeatPatternSpinner = new javax.swing.JSpinner();
         setPatternButton = new javax.swing.JButton();
+        testTransfer = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         fileMenuOpen = new javax.swing.JMenuItem();
@@ -456,6 +457,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        testTransfer.setText("Test");
+        testTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testTransferActionPerformed(evt);
+            }
+        });
+
         fileMenu.setText("File");
 
         fileMenuOpen.setText("Open rhythm");
@@ -508,7 +516,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(rightFootLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bassGuitarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(patternScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 857, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(patternScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
                 .addGap(49, 49, 49))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -562,12 +570,17 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(saveSequenceButton)
                                 .addGap(18, 18, 18)
                                 .addComponent(saveFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(39, 39, 39)
-                        .addComponent(selectSequencePatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(repeatPatternSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(setPatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(selectSequencePatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(repeatPatternSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(setPatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(testTransfer, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -621,7 +634,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(playSequenceButton)
                     .addComponent(saveSequenceButton)
-                    .addComponent(saveFileButton))
+                    .addComponent(saveFileButton)
+                    .addComponent(testTransfer))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sequenceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -784,10 +798,13 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void divisionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_divisionComboBoxActionPerformed
-        setRhythmTableModel();        
-        currentPattern.setBeatTime(Integer.parseInt(timeSpinner.getValue().toString()));
-        currentPattern.setDivision(Integer.parseInt(divisionComboBox.getSelectedItem().toString()));
-        currentPattern.setBeats(Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
+        Pattern tmp = currentPattern;
+        setRhythmTableModel();
+        currentPattern.setID(tmp.getID());
+        if(patternPlayback != null)
+            patternPlayback.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
+                    Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
+                    Integer.parseInt(numberOfBeats.getSelectedItem().toString()));
             
     }//GEN-LAST:event_divisionComboBoxActionPerformed
 
@@ -839,7 +856,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_playSequenceButtonActionPerformed
 
     private void numberOfBeatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numberOfBeatsActionPerformed
+        Pattern tmp = currentPattern;
         setRhythmTableModel();
+        currentPattern.setID(tmp.getID());
         if(patternPlayback != null)
             patternPlayback.setTime(Integer.parseInt(timeSpinner.getValue().toString()),
                     Integer.parseInt(divisionComboBox.getSelectedItem().toString()),
@@ -1125,6 +1144,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void removePatternActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removePatternActionPerformed
         ((JSequenceTable)sequenceTable).clearPattern();
     }//GEN-LAST:event_removePatternActionPerformed
+
+    private void testTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testTransferActionPerformed
+        new RhythmFileSender().sendPatternSequence(currentSequence);
+    }//GEN-LAST:event_testTransferActionPerformed
     
     private void setRhythmTableModel(Pattern tmp){
         if(tmp == null)
@@ -1145,14 +1168,14 @@ public class MainFrame extends javax.swing.JFrame {
         int division = Integer.parseInt(divisionComboBox.getSelectedItem().toString());
         int beats = Integer.parseInt(numberOfBeats.getSelectedItem().toString());
         int beatTime = Integer.parseInt(timeSpinner.getValue().toString());
-        int cols = division * beats;
-        int cells = cols * 5;   // all table cells
+        int cols = division * beats;        
         if(cols > 120){
             cols = 120;
             beats = 120;
             division = 1;
             divisionComboBox.setSelectedIndex(0);
         }
+       int cells = cols * 5;   // all table cells 
        patternTable.setModel(new javax.swing.table.DefaultTableModel(5,cols ));
        currentPattern = new Pattern(cells);
        currentPattern.setBeats(beats);
@@ -1253,6 +1276,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane sequenceScrollPane;
     private javax.swing.JTable sequenceTable;
     private javax.swing.JButton setPatternButton;
+    private javax.swing.JButton testTransfer;
     private javax.swing.JLabel timeLabel;
     private javax.swing.JSpinner timeSpinner;
     // End of variables declaration//GEN-END:variables
