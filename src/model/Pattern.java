@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import java.util.List;
  * @author Tomek
  */
 
-public class Pattern  implements Cloneable{
+public class Pattern  implements Cloneable,Serializable{
+
+    
     private Integer ID;
     private String name;
     private Integer beats; 
@@ -23,6 +26,10 @@ public class Pattern  implements Cloneable{
     private List eventList;
     private static Integer globalID = 0;
 
+    public static void setGlobalID(int size) {
+        Pattern.globalID = size;
+    }
+    
     public static Integer getGlobalID() {
         return globalID;
     }
@@ -129,7 +136,7 @@ public class Pattern  implements Cloneable{
         return "Pattern " + this.ID;
     }
     
-    public void incrementID(){
+    public static void incrementID(){
         Pattern.globalID++;
     }
    
@@ -139,5 +146,9 @@ public class Pattern  implements Cloneable{
 
     public void setID(Integer id) {
         this.ID = id;
+    }
+
+    public void addRepeat() {
+        this.repeat++;
     }
 }

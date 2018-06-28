@@ -1,5 +1,5 @@
 /*
- * To change this license buffer, choose License Headers in Project Properties.
+ * To change this license patternHeader, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -13,10 +13,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import misc.Splitter;
 import misc.UsbWriter;
 import model.MidiEvent;
 import model.MidiInstrument;
@@ -25,13 +26,14 @@ import model.MidiInstrument;
  *
  * @author Tomek
  */
-public class RhythmFileWriter {
+public class FileReaderWriter {
     
     private File rhythmFile;
     private FileInputStream fis;
     private FileOutputStream fos;
-    
-    public RhythmFileWriter(File fil){
+    private ObjectInputStream ois;
+    private ObjectOutputStream oos;
+    public FileReaderWriter(File fil){
         rhythmFile = fil;
     }
     
@@ -102,11 +104,9 @@ public class RhythmFileWriter {
                     buffer.append(new Integer(midiValue).byteValue());
                 }
                 
-                fos.write(buffer.toArray());					
-                fos.flush();                
-                
                 buffer.trimToSize();
-                
+                fos.write(buffer.toArray());					
+                fos.flush();   
                 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -120,10 +120,18 @@ public class RhythmFileWriter {
     
     public void writeSequence(PatternSequence seq){        
         try {
-            fos = new FileOutputStream(rhythmFile);
+            String SDFile = rhythmFile.getAbsolutePath().replace(".bin", ".rth");
+            fos = new FileOutputStream(SDFile);
+            oos = new ObjectOutputStream(new FileOutputStream(rhythmFile));
+            oos.writeObject(seq);
+            
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(RhythmFileWriter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FileReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        // this part saves to .rth file to be used by stm32 looper
         List<Pattern> patternList = seq.getPatternList();
         int pats = seq.getNumOfPats();
         int byts = seq.getNumOfBytes();
@@ -140,7 +148,7 @@ public class RhythmFileWriter {
             fos.close();
             System.out.println(byts);            
         } catch (IOException ex) {
-            Logger.getLogger(RhythmFileWriter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -158,52 +166,24 @@ public class RhythmFileWriter {
        return one | (two << 8) | (three << 16) | (four << 24);
     }
     
-    void readSequence(PatternSequence seq) {        
-        if(rhythmFile != null){
-            try {
-                byte[] buffer = new byte[16];
-                fis = new FileInputStream(rhythmFile);
-                int patternIndex = 0;
-                int offset = 0;
-                int count = 0;
-                int len = 0;
-                int beats = 0;
-                int division = 0;
-                int beatTime = 0;
-                int id = 0;
-                while(fis.available() > 0){
-                    Pattern p = new Pattern();
-                    fis.read(buffer,0,16);
-                    beats = getUnsignedInt(buffer[0],buffer[1],buffer[2],buffer[3]);
-                    division = getUnsignedInt(buffer[4],buffer[5],buffer[6],buffer[7]);
-                    beatTime = getUnsignedInt(buffer[8],buffer[9],buffer[10],buffer[11]);
-                    id = getUnsignedInt(buffer[12],buffer[13],buffer[14],buffer[15]);
-                    p.setBeats(beats);
-                    p.setDivision(division);
-                    p.setBeatTime(beatTime);
-                    p.setID(id);
-                    offset += 16;
-                    count = 5 * beats * division;
-                    buffer = new byte[count];
-                    fis.read(buffer,0,count);
-                    for(int i = 0; i < count; i++){
-                        MidiEvent e = new MidiEvent();
-                        MidiInstrument ins = MidiInstrument.getInstrumentByMidiValue(buffer[i], i % 5);
-                        e.setInstrument(ins);
-                        e.setMidiValue((int)buffer[i]);                        
-                        p.addEvent(i, e);
-                    }
-                    seq.addPattern(patternIndex++,p);
-                    offset += count;
-                }
-                fis.close();
-            } 
-            catch (IOException ex) {
-                Logger.getLogger(RhythmFileWriter.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    PatternSequence readSequence() { 
+        
+        try {
             
+            ois = new ObjectInputStream(new FileInputStream(rhythmFile));
+            return (PatternSequence) ois.readObject();
             
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FileReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FileReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
+          
+        return new PatternSequence();
+       
     }    
     
 }

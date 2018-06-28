@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Tomek
  */
 
-public class PatternSequence {
+public class PatternSequence implements Serializable{
 
     private Integer numOfBytes;
     private Integer numOfPats;

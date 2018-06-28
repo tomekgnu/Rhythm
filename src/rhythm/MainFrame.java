@@ -47,7 +47,7 @@ public class MainFrame extends javax.swing.JFrame {
     private boolean togglePlayback;
     private Playback patternPlayback;
     private Playback sequencePlayback;
-    private RhythmFileWriter rhythmFileWriter;
+    private FileReaderWriter rhythmFileWriter;
     
     /**
      * Creates new form MainFrame
@@ -61,7 +61,7 @@ public class MainFrame extends javax.swing.JFrame {
         togglePlayback  = false;
         currentNote =  0; // 24 = C contra
         currentOctave = 0;
-        rhythmFileWriter = new RhythmFileWriter(new File("plik.bin"));
+        rhythmFileWriter = new FileReaderWriter(new File("plik.bin"));
     }
 
     /**
@@ -112,6 +112,7 @@ public class MainFrame extends javax.swing.JFrame {
         repeatPatternSpinner = new javax.swing.JSpinner();
         setPatternButton = new javax.swing.JButton();
         testTransfer = new javax.swing.JButton();
+        progressLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         fileMenuOpen = new javax.swing.JMenuItem();
@@ -457,12 +458,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        testTransfer.setText("Test");
+        testTransfer.setText("Send via USB");
         testTransfer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testTransferActionPerformed(evt);
             }
         });
+
+        progressLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         fileMenu.setText("File");
 
@@ -573,14 +576,17 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(39, 39, 39)
-                                .addComponent(selectSequencePatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(repeatPatternSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(setPatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(progressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(selectSequencePatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(repeatPatternSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(setPatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(testTransfer, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(testTransfer, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -638,11 +644,15 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(testTransfer))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sequenceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(selectSequencePatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(repeatPatternSpinner)
-                        .addComponent(setPatternButton)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(selectSequencePatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(repeatPatternSpinner)
+                            .addComponent(setPatternButton))
+                        .addGap(18, 18, 18)
+                        .addComponent(progressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))
+                    .addComponent(sequenceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(365, Short.MAX_VALUE))
         );
 
@@ -652,24 +662,28 @@ public class MainFrame extends javax.swing.JFrame {
     private void fileMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuOpenActionPerformed
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        "RTH files", "bin", "rth");
+        "RTH files", "bin");
         chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File currentFile = chooser.getSelectedFile();
             rhythmFileWriter.setFile(currentFile);
             patternList.clear();
-            currentSequence.getPatternList().clear();
-            rhythmFileWriter.readSequence(currentSequence);
-            currentPattern = currentSequence.getPatternAt(0);
+            currentSequence.getPatternList().clear();            
+            
+            currentSequence = rhythmFileWriter.readSequence();
+            Pattern.setGlobalID(currentSequence.getPatternList().size());
+            currentPattern = currentSequence.getPatternAt(0);            
             setRhythmTableModel(currentPattern);             
             patternTable.repaint();
             
             // fill in pattern select box and sequence table            
             for(int index = 0; index < currentSequence.getPatternList().size(); index++){
-                patternList.add(index,(Pattern)currentSequence.getPatternList().get(index));
+                patternList.add(index,(Pattern)currentSequence.getPatternList().get(index));                
                 int x = index / sequenceTable.getColumnCount(); // row
-                int y = index % sequenceTable.getColumnCount(); // column        
+                int y = index % sequenceTable.getColumnCount(); // column  
+                ((JSequenceTable)sequenceTable).setCurrentColumn(y);
+                ((JSequenceTable)sequenceTable).setCurrentRow(x);
                 ((JSequenceTable)sequenceTable).insertPattern();
             }
             String[] array = new String[patternList.size() + 1];
@@ -1008,7 +1022,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         catch(IndexOutOfBoundsException ex){
             System.out.println("savePatternButtonMouseClicked " + ex.getMessage());
-            currentPattern.incrementID();
+            Pattern.incrementID();
             patternList.add(index,currentPattern);
             
         } 
@@ -1059,8 +1073,7 @@ public class MainFrame extends javax.swing.JFrame {
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File currentFile = chooser.getSelectedFile();
             rhythmFileWriter.setFile(currentFile);
-            PatternSequence tmpseq = new PatternSequence();
-            rhythmFileWriter.readSequence(tmpseq);
+            PatternSequence tmpseq = rhythmFileWriter.readSequence();
             currentSequence.getPatternList().addAll(tmpseq.getPatternList());
             currentPattern = currentSequence.getPatternAt(0);
             setRhythmTableModel(currentPattern);             
@@ -1146,7 +1159,8 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_removePatternActionPerformed
 
     private void testTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testTransferActionPerformed
-        new RhythmFileSender().sendPatternSequence(currentSequence);
+        new RhythmUsbSender(currentSequence, progressLabel).start();
+        
     }//GEN-LAST:event_testTransferActionPerformed
     
     private void setRhythmTableModel(Pattern tmp){
@@ -1262,6 +1276,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTable patternTable;
     private javax.swing.JButton playPatternButton;
     private javax.swing.JButton playSequenceButton;
+    private javax.swing.JLabel progressLabel;
     private javax.swing.JMenuItem removePattern;
     private javax.swing.JSpinner repeatPatternSpinner;
     private javax.swing.JLabel resolutionLabel;

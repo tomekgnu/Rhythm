@@ -5,13 +5,14 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Tomek
  */
-public class MidiEvent {
+public class MidiEvent implements Serializable{
    
     private MidiInstrument instrument;
     private int midiValue;
