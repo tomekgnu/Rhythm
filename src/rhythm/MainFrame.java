@@ -62,6 +62,9 @@ public class MainFrame extends javax.swing.JFrame {
         currentNote =  0; // 24 = C contra
         currentOctave = 0;
         rhythmFileWriter = new FileReaderWriter(new File("plik.bin"));
+        ((RhythmPanel)rhythmPanel).setInstrumentIndex(instrumentComboBox.getSelectedIndex());
+        ((RhythmPanel)rhythmPanel).setCurrentNoteIndex(noteSelectComboBox.getSelectedIndex());
+        ((RhythmPanel)rhythmPanel).setCurrentOctaveIndex(octaveSelectComboBox.getSelectedIndex());
     }
 
     /**
@@ -725,7 +728,7 @@ public class MainFrame extends javax.swing.JFrame {
         int index = instrumentComboBox.getSelectedIndex();
         int rowCount = patternTable.getRowCount();
         int listIndex = column * rowCount + row;        
-        currentEvent = new MidiEvent(index,row,column,currentNote,currentOctave);
+        currentEvent = new MidiEvent(index,currentNote,currentOctave);
         
         // validate if instruments are assigned to correct part of         
             switch (row) {
@@ -900,7 +903,9 @@ public class MainFrame extends javax.swing.JFrame {
         else{
             this.noteSelectComboBox.setEnabled(true);
             this.octaveSelectComboBox.setEnabled(true);
-        }       
+        } 
+        
+        ((RhythmPanel)rhythmPanel).setInstrumentIndex(instrumentComboBox.getSelectedIndex());
         
     }//GEN-LAST:event_instrumentComboBoxActionPerformed
 
@@ -942,10 +947,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void noteSelectComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noteSelectComboBoxActionPerformed
         currentNote = noteSelectComboBox.getSelectedIndex(); 
+        ((RhythmPanel)rhythmPanel).setCurrentNoteIndex(noteSelectComboBox.getSelectedIndex());
     }//GEN-LAST:event_noteSelectComboBoxActionPerformed
 
     private void octaveSelectComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_octaveSelectComboBoxActionPerformed
         currentOctave = octaveSelectComboBox.getSelectedIndex();
+        ((RhythmPanel)rhythmPanel).setCurrentOctaveIndex(octaveSelectComboBox.getSelectedIndex());
     }//GEN-LAST:event_octaveSelectComboBoxActionPerformed
 
     private void instrumentComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_instrumentComboBoxItemStateChanged

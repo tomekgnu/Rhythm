@@ -13,17 +13,45 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import static javax.swing.BorderFactory.createCompoundBorder;
 import javax.swing.JLabel;
+import model.MidiEvent;
+import model.MidiInstrument;
+import static rhythm.MainFrame.currentPattern;
 
 /**
  *
  * @author Tomek
  */
 public class RhythmPanel extends javax.swing.JPanel {
-    final int rows = 5;
-    int beats;
-    int resolution;
-    int cells;
-    int cols;
+    private final int rows = 5;
+    private int beats;
+    private int resolution;
+    private int cells;
+    private int cols;
+    private MidiEvent currentEvent;
+    private int instrumentIndex;  // index in combobox
+    private int currentNoteIndex;        // index in combobox
+    private int currentOctaveIndex;      // index in combobox
+   
+    public void setBeats(int beats) {
+        this.beats = beats;
+    }
+
+    public void setResolution(int resolution) {
+        this.resolution = resolution;
+    }
+
+    public void setInstrumentIndex(int instrumentIndex) {
+        this.instrumentIndex = instrumentIndex;
+    }
+
+    public void setCurrentNoteIndex(int currentNoteIndex) {
+        this.currentNoteIndex = currentNoteIndex;
+    }
+
+    public void setCurrentOctaveIndex(int currentOctaveIndex) {
+        this.currentOctaveIndex = currentOctaveIndex;
+    }
+    
     /**
      * Creates new form PatternForm
      */
@@ -39,13 +67,14 @@ public class RhythmPanel extends javax.swing.JPanel {
         
         
         for (int row = 0; row < rows; row++) {
-            for (int j = row, col = 0; j < cells && col < cols; j = j + 5, col++) {
+            for (int eventIndex = row, col = 0; eventIndex < cells && col < cols; eventIndex = eventIndex + 5, col++) {
                 JLabel label = new JLabel("");
                 label.setSize(30, 60);
                 label.addMouseListener(new RhythmPanelMouseListener());
-                label.setName(Integer.toString(j));
-                makeBorder(label, row, col);
-                this.add(label);
+                label.setName(Integer.toString(eventIndex)); 
+                label.setOpaque(true);
+                makeBorder(label, row, col);                 
+                this.add(label);                
             }
         }
         
@@ -119,7 +148,58 @@ public class RhythmPanel extends javax.swing.JPanel {
 
         @Override
         public void mouseClicked(MouseEvent me) {
-            System.out.println(me.getComponent().getName());
+            JLabel label = (JLabel)me.getComponent();
+            Integer eventIndex = Integer.parseInt(label.getName());
+            currentEvent = new MidiEvent(instrumentIndex,currentNoteIndex,currentOctaveIndex);   
+                        
+            switch (eventIndex % rows) {
+                // hands
+                case 0:
+                case 1:                
+                    switch(currentEvent.getMidiInstrument()){
+                        case ACOUSTIC_BASS_DRUM:
+                        case PEDAL_HI_HAT:  
+                        case BASS_GUITAR: System.out.println("Wrong part of body");
+                        return;
+                    }   break;
+                 // feet
+                case 2:
+                case 3:               
+                    switch(currentEvent.getMidiInstrument()){
+                        case SIDE_STICK:
+                        case ACOUSTIC_SNARE:
+                        case COWBELL:
+                        case LOW_FLOOR_TOM:
+                        case HIGH_FLOOR_TOM:
+                        case LOW_MID_TOM:
+                        case HI_MID_TOM:
+                        case HIGH_TOM:
+                        case CLOSED_HI_HAT:
+                        case OPEN_HI_HAT:
+                        case CRASH_CYMBAL_1:
+                        case RIDE_CYMBAL_2:
+                        case SPLASH_CYMBAL:
+                        case CHINESE_CYMBAL:
+                        case BASS_GUITAR:   System.out.println("Wrong part of body");
+                                            return;
+                    }   
+                    break;
+                case 4: if(currentEvent.getMidiInstrument() != MidiInstrument.BASS_GUITAR){
+                            System.out.println("Wrong part of body");
+                            return;
+                        }
+            }
+            
+            assert(currentPattern.hasEvents());
+            MidiInstrument instrument = currentPattern.getEventAt(eventIndex).getMidiInstrument();
+            if(instrument == MidiInstrument.NONE){  // empty event ? set one with current instrument
+                currentPattern.addEvent(eventIndex, currentEvent);
+                label.setBackground(currentEvent.getMidiInstrument().getBackground());
+            }
+            else{
+                currentPattern.addEvent(eventIndex, new MidiEvent());
+                label.setBackground(getParent().getBackground());
+            }
         }
 
         @Override

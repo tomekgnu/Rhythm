@@ -15,20 +15,16 @@ import java.util.Objects;
 public class MidiEvent implements Serializable{
    
     private MidiInstrument instrument;
-    private int midiValue;
-    private Integer part;
-    private Integer position;
+    private int midiValue;    
     
     public MidiEvent(){
        this.instrument = MidiInstrument.NONE;       
        this.midiValue = 0;
     }
     
-    public MidiEvent(int index,int part,int pos,int note,int oct){
+    public MidiEvent(int index,int note,int oct){
         this.instrument = MidiInstrument.getInstrumentByIndex(index);
-        this.midiValue = instrument.getMidiValue();
-        this.part = part;
-        this.position = pos;
+        this.midiValue = instrument.getMidiValue();        
         if(instrument == MidiInstrument.BASS_GUITAR)
             midiValue = note + 24 + (oct * 12);
     }
