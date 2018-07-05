@@ -81,35 +81,17 @@ public class MainFrame extends javax.swing.JFrame {
         removePattern = new javax.swing.JMenuItem();
         insertOneBefore = new javax.swing.JMenuItem();
         insertOneAfter = new javax.swing.JMenuItem();
-        patternScrollPane = new javax.swing.JScrollPane();
-        patternTable = new JPatternTable();
-        instrumentComboBox = new javax.swing.JComboBox<>();
         drumPatternLabel = new javax.swing.JLabel();
-        beatLabel = new javax.swing.JLabel();
-        instrumentLabel = new javax.swing.JLabel();
-        timeLabel = new javax.swing.JLabel();
-        resolutionLabel = new javax.swing.JLabel();
-        divisionComboBox = new javax.swing.JComboBox<>();
-        timeSpinner = new javax.swing.JSpinner();
         paneSeparator = new javax.swing.JSeparator();
         sequenceScrollPane = new javax.swing.JScrollPane();
         sequenceTable = new JSequenceTable();
-        savePatternButton = new javax.swing.JButton();
-        selectPatternComboBox = new JPatternComboBox();
         saveSequenceButton = new javax.swing.JButton();
-        selectPatternLabel = new javax.swing.JLabel();
-        numberOfBeats = new javax.swing.JComboBox<>();
         leftHandLabel = new javax.swing.JLabel();
         rightHandLabel = new javax.swing.JLabel();
         leftFootLabel = new javax.swing.JLabel();
         rightFootLabel = new javax.swing.JLabel();
         bassGuitarLabel = new javax.swing.JLabel();
-        playPatternButton = new javax.swing.JButton();
         playSequenceButton = new javax.swing.JButton();
-        noteSelectComboBox = new javax.swing.JComboBox<>();
-        noteLabel = new javax.swing.JLabel();
-        octaveLabel = new javax.swing.JLabel();
-        octaveSelectComboBox = new javax.swing.JComboBox<>();
         saveFileButton = new javax.swing.JButton();
         selectSequencePatternComboBox = new JPatternComboBox();
         repeatPatternSpinner = new javax.swing.JSpinner();
@@ -117,6 +99,24 @@ public class MainFrame extends javax.swing.JFrame {
         testTransfer = new javax.swing.JButton();
         progressLabel = new javax.swing.JLabel();
         rhythmPanel = new RhythmPanel();
+        patternGroupPanel = new javax.swing.JPanel();
+        playPatternButton = new javax.swing.JButton();
+        divisionComboBox = new javax.swing.JComboBox<>();
+        timeSpinner = new javax.swing.JSpinner();
+        savePatternButton = new javax.swing.JButton();
+        selectPatternComboBox = new JPatternComboBox();
+        selectPatternLabel = new javax.swing.JLabel();
+        numberOfBeats = new javax.swing.JComboBox<>();
+        instrumentComboBox = new javax.swing.JComboBox<>();
+        beatLabel = new javax.swing.JLabel();
+        instrumentLabel = new javax.swing.JLabel();
+        timeLabel = new javax.swing.JLabel();
+        resolutionLabel = new javax.swing.JLabel();
+        noteSelectComboBox = new javax.swing.JComboBox<>();
+        noteLabel = new javax.swing.JLabel();
+        octaveLabel = new javax.swing.JLabel();
+        octaveSelectComboBox = new javax.swing.JComboBox<>();
+        clearPatternButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         fileMenuOpen = new javax.swing.JMenuItem();
@@ -175,129 +175,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        patternScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        patternScrollPane.setPreferredSize(new java.awt.Dimension(452, 80));
-
-        patternTable.setShowGrid(true);
-        patternTable.setDragEnabled(true);
-        patternTable.setDefaultEditor(Object.class, null);
-        patternTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        patternTable.setTableHeader(null);
-        patternTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "", "", "", ""
-            }
-        ));
-        patternTable.setDefaultRenderer(Object.class, new CustomCellRenderer());
-        patternTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        patternTable.setGridColor(new java.awt.Color(0, 0, 0));
-        patternTable.setMinimumSize(new java.awt.Dimension(60, 78));
-        patternTable.setName("patternTable"); // NOI18N
-        patternTable.setOpaque(false);
-        patternTable.setRequestFocusEnabled(false);
-        patternTable.setRowHeight(20);
-        patternTable.setColumnSelectionAllowed(false);
-        patternTable.setCellSelectionEnabled(false);
-        patternTable.setShowHorizontalLines(true);
-        patternTable.setShowVerticalLines(true);
-        patternTable.setRowSelectionAllowed(false);
-        patternTable.setTableHeader(null);
-        patternTable.setUpdateSelectionOnSort(false);
-        patternTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                patternTableMouseClicked(evt);
-            }
-        });
-        patternTable.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                patternTableKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                patternTableKeyReleased(evt);
-            }
-        });
-        patternScrollPane.setViewportView(patternTable);
-
-        instrumentComboBox.setModel(new javax.swing.DefaultComboBoxModel<String>(model.MidiInstrument.displayValues()));
-        instrumentComboBox.setOpaque(false);
-        instrumentComboBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                instrumentComboBoxItemStateChanged(evt);
-            }
-        });
-        instrumentComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-                instrumentComboBoxPopupMenuWillBecomeInvisible(evt);
-            }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-                instrumentComboBoxPopupMenuWillBecomeVisible(evt);
-            }
-        });
-        instrumentComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                instrumentComboBoxMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                instrumentComboBoxMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                instrumentComboBoxMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                instrumentComboBoxMouseReleased(evt);
-            }
-        });
-        instrumentComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                instrumentComboBoxActionPerformed(evt);
-            }
-        });
-
         drumPatternLabel.setText("Current drum pattern");
-
-        beatLabel.setText("Beats");
-
-        instrumentLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        instrumentLabel.setText("Instrument");
-        instrumentLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        instrumentLabel.setOpaque(true);
-
-        timeLabel.setText("Time");
-
-        resolutionLabel.setText("Division");
-
-        divisionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32" }));
-        divisionComboBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                divisionComboBoxItemStateChanged(evt);
-            }
-        });
-        divisionComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                divisionComboBoxActionPerformed(evt);
-            }
-        });
-
-        timeSpinner.setValue(60);
-        timeSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                timeSpinnerStateChanged(evt);
-            }
-        });
-        timeSpinner.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                timeSpinnerMouseClicked(evt);
-            }
-        });
 
         sequenceTable.setTableHeader(null);
         sequenceTable.setShowGrid(true);
@@ -331,49 +209,10 @@ public class MainFrame extends javax.swing.JFrame {
         });
         sequenceScrollPane.setViewportView(sequenceTable);
 
-        savePatternButton.setText("Save pattern");
-        savePatternButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                savePatternButtonMouseClicked(evt);
-            }
-        });
-        savePatternButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                savePatternButtonActionPerformed(evt);
-            }
-        });
-
-        selectPatternComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "New" }));
-        selectPatternComboBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                selectPatternComboBoxItemStateChanged(evt);
-            }
-        });
-        selectPatternComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                selectPatternComboBoxMouseClicked(evt);
-            }
-        });
-        selectPatternComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectPatternComboBoxActionPerformed(evt);
-            }
-        });
-
         saveSequenceButton.setText("Save sequence");
         saveSequenceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveSequenceButtonActionPerformed(evt);
-            }
-        });
-
-        selectPatternLabel.setText("Select pattern");
-
-        numberOfBeats.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
-        numberOfBeats.setSelectedIndex(3);
-        numberOfBeats.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                numberOfBeatsActionPerformed(evt);
             }
         });
 
@@ -387,37 +226,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         bassGuitarLabel.setText("Bass guitar");
 
-        playPatternButton.setText("Play pattern");
-        playPatternButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                playPatternButtonActionPerformed(evt);
-            }
-        });
-
         playSequenceButton.setText("Play sequence");
         playSequenceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 playSequenceButtonActionPerformed(evt);
-            }
-        });
-
-        noteSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C", "C#/Db", "D", "D#/Eb", "E", "E#/F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B", "B#/C" }));
-        noteSelectComboBox.setEnabled(false);
-        noteSelectComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                noteSelectComboBoxActionPerformed(evt);
-            }
-        });
-
-        noteLabel.setText("Note");
-
-        octaveLabel.setText("Octave");
-
-        octaveSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contra", "Great", "Small", "1 Line", "2 Line", "3 Line", "4 Line", "5 Line", "6 Line" }));
-        octaveSelectComboBox.setEnabled(false);
-        octaveSelectComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                octaveSelectComboBoxActionPerformed(evt);
             }
         });
 
@@ -477,6 +289,226 @@ public class MainFrame extends javax.swing.JFrame {
 
         rhythmPanel.setLayout(new java.awt.GridLayout(5, 4));
 
+        patternGroupPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        patternGroupPanel.setName(""); // NOI18N
+
+        playPatternButton.setText("Play pattern");
+        playPatternButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playPatternButtonActionPerformed(evt);
+            }
+        });
+
+        divisionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32" }));
+        divisionComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                divisionComboBoxItemStateChanged(evt);
+            }
+        });
+        divisionComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                divisionComboBoxActionPerformed(evt);
+            }
+        });
+
+        timeSpinner.setValue(60);
+        timeSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                timeSpinnerStateChanged(evt);
+            }
+        });
+        timeSpinner.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                timeSpinnerMouseClicked(evt);
+            }
+        });
+
+        savePatternButton.setText("Save pattern");
+        savePatternButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                savePatternButtonMouseClicked(evt);
+            }
+        });
+        savePatternButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                savePatternButtonActionPerformed(evt);
+            }
+        });
+
+        selectPatternComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "New" }));
+        selectPatternComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                selectPatternComboBoxItemStateChanged(evt);
+            }
+        });
+        selectPatternComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectPatternComboBoxMouseClicked(evt);
+            }
+        });
+        selectPatternComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectPatternComboBoxActionPerformed(evt);
+            }
+        });
+
+        selectPatternLabel.setText("Select pattern");
+
+        numberOfBeats.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        numberOfBeats.setSelectedIndex(3);
+        numberOfBeats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numberOfBeatsActionPerformed(evt);
+            }
+        });
+
+        instrumentComboBox.setModel(new javax.swing.DefaultComboBoxModel<String>(model.MidiInstrument.displayValues()));
+        instrumentComboBox.setOpaque(false);
+        instrumentComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                instrumentComboBoxItemStateChanged(evt);
+            }
+        });
+        instrumentComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                instrumentComboBoxPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                instrumentComboBoxPopupMenuWillBecomeVisible(evt);
+            }
+        });
+        instrumentComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                instrumentComboBoxMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                instrumentComboBoxMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                instrumentComboBoxMouseExited(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                instrumentComboBoxMouseReleased(evt);
+            }
+        });
+        instrumentComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                instrumentComboBoxActionPerformed(evt);
+            }
+        });
+
+        beatLabel.setText("Beats");
+
+        instrumentLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        instrumentLabel.setText("Instrument");
+        instrumentLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        instrumentLabel.setOpaque(true);
+
+        timeLabel.setText("Time");
+
+        resolutionLabel.setText("Division");
+
+        noteSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C", "C#/Db", "D", "D#/Eb", "E", "E#/F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B", "B#/C" }));
+        noteSelectComboBox.setEnabled(false);
+        noteSelectComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noteSelectComboBoxActionPerformed(evt);
+            }
+        });
+
+        noteLabel.setText("Note");
+
+        octaveLabel.setText("Octave");
+
+        octaveSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contra", "Great", "Small", "1 Line", "2 Line", "3 Line", "4 Line", "5 Line", "6 Line" }));
+        octaveSelectComboBox.setEnabled(false);
+        octaveSelectComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                octaveSelectComboBoxActionPerformed(evt);
+            }
+        });
+
+        clearPatternButton.setText("Clear pattern");
+        clearPatternButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearPatternButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout patternGroupPanelLayout = new javax.swing.GroupLayout(patternGroupPanel);
+        patternGroupPanel.setLayout(patternGroupPanelLayout);
+        patternGroupPanelLayout.setHorizontalGroup(
+            patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(patternGroupPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(patternGroupPanelLayout.createSequentialGroup()
+                        .addGroup(patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(instrumentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(instrumentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(beatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(numberOfBeats, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(divisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(resolutionLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(timeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(selectPatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(selectPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(patternGroupPanelLayout.createSequentialGroup()
+                        .addComponent(noteLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(noteSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(octaveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(octaveSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(24, 24, 24)
+                .addComponent(clearPatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(savePatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playPatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
+        );
+        patternGroupPanelLayout.setVerticalGroup(
+            patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(patternGroupPanelLayout.createSequentialGroup()
+                .addGroup(patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(selectPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resolutionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(beatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(instrumentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(instrumentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(numberOfBeats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(divisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectPatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clearPatternButton)
+                    .addComponent(savePatternButton)
+                    .addComponent(playPatternButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(patternGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(noteLabel)
+                    .addComponent(noteSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(octaveLabel)
+                    .addComponent(octaveSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
         fileMenu.setText("File");
 
         fileMenuOpen.setText("Open rhythm");
@@ -519,86 +551,49 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(paneSeparator)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(instrumentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(selectPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(410, 410, 410))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(patternScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(noteLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(noteSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(39, 39, 39)
-                                        .addComponent(octaveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(octaveSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(instrumentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(beatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(numberOfBeats, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(resolutionLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(divisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(timeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(3, 3, 3)
-                                .addComponent(selectPatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(playPatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(savePatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(sequenceScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(playSequenceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(saveSequenceButton)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(saveFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(39, 39, 39)
-                                        .addComponent(progressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(testTransfer, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(39, 39, 39)
-                                        .addComponent(selectSequencePatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(repeatPatternSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(124, 124, 124)
-                                        .addComponent(setPatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(leftHandLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rightHandLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(leftFootLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rightFootLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bassGuitarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(leftHandLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(rightHandLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(leftFootLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(rightFootLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bassGuitarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(drumPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 800, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(drumPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rhythmPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(252, 252, 252))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(patternGroupPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(20, 20, 20)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(sequenceScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(playSequenceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(saveSequenceButton)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(saveFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(39, 39, 39)
+                                            .addComponent(progressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(18, 18, 18)
+                                            .addComponent(testTransfer, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(39, 39, 39)
+                                            .addComponent(selectSequencePatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(repeatPatternSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(124, 124, 124)
+                                            .addComponent(setPatternButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(rhythmPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -618,31 +613,9 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bassGuitarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(rhythmPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(82, 82, 82)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(instrumentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(selectPatternLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(numberOfBeats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(resolutionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(divisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(beatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(instrumentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(timeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(selectPatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(playPatternButton)
-                            .addComponent(savePatternButton))))
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(noteSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(noteLabel)
-                    .addComponent(octaveLabel)
-                    .addComponent(octaveSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
+                .addComponent(patternGroupPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(122, 122, 122)
                 .addComponent(paneSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -661,10 +634,10 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(progressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(21, 21, 21))
                     .addComponent(sequenceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(55, 55, 55)
-                .addComponent(patternScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(234, Short.MAX_VALUE))
         );
+
+        patternGroupPanel.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -684,8 +657,8 @@ public class MainFrame extends javax.swing.JFrame {
             currentSequence = rhythmFileWriter.readSequence();
             Pattern.setGlobalID(currentSequence.getPatternList().size());
             currentPattern = currentSequence.getPatternAt(0);            
-            setRhythmTableModel(currentPattern);             
-            patternTable.repaint();
+            setRhythmTableModel(currentPattern);            
+            
             
             // fill in pattern select box and sequence table            
             for(int index = 0; index < currentSequence.getPatternList().size(); index++){
@@ -716,80 +689,6 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fileMenuCloseActionPerformed
     
-    private void patternTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patternTableMouseClicked
-//        L_HAND	row 0
-//        R_HAND	row 1
-//        L_FOOT	row 2
-//        R_FOOT	row 3
-//        BASS          row 4
-        
-        int row = patternTable.getSelectedRow();
-        int column = patternTable.getSelectedColumn();
-        int index = instrumentComboBox.getSelectedIndex();
-        int rowCount = patternTable.getRowCount();
-        int listIndex = column * rowCount + row;        
-        currentEvent = new MidiEvent(index,currentNote,currentOctave);
-        
-        // validate if instruments are assigned to correct part of         
-            switch (row) {
-                // hands
-                case 0:
-                case 1:                
-                    switch(currentEvent.getMidiInstrument()){
-                        case ACOUSTIC_BASS_DRUM:
-                        case PEDAL_HI_HAT:  
-                        case BASS_GUITAR: System.out.println("Wrong part of body");
-                        return;
-                    }   break;
-                 // feet
-                case 2:
-                case 3:               
-                    switch(currentEvent.getMidiInstrument()){
-                        case SIDE_STICK:
-                        case ACOUSTIC_SNARE:
-                        case COWBELL:
-                        case LOW_FLOOR_TOM:
-                        case HIGH_FLOOR_TOM:
-                        case LOW_MID_TOM:
-                        case HI_MID_TOM:
-                        case HIGH_TOM:
-                        case CLOSED_HI_HAT:
-                        case OPEN_HI_HAT:
-                        case CRASH_CYMBAL_1:
-                        case RIDE_CYMBAL_2:
-                        case SPLASH_CYMBAL:
-                        case CHINESE_CYMBAL:
-                        case BASS_GUITAR:   System.out.println("Wrong part of body");
-                                            return;
-                    }   
-                    break;
-                case 4: if(currentEvent.getMidiInstrument() != MidiInstrument.BASS_GUITAR){
-                            System.out.println("Wrong part of body");
-                            return;
-                        }
-            }
-              
-        
-        assert(currentPattern.hasEvents());
-        MidiInstrument instrument = currentPattern.getEventAt(listIndex).getMidiInstrument();
-         if(instrument == MidiInstrument.NONE)// || currentPatternData[row][column].equals(currentEvent))
-            currentPattern.addEvent(listIndex, currentEvent);       
-        else
-           currentPattern.addEvent(listIndex, new MidiEvent()); 
-             
-        
-        String value = (String)patternTable.getValueAt(patternTable.getSelectedRow(), patternTable.getSelectedColumn());
-        
-        if(value == null){
-           patternTable.setValueAt(" ", patternTable.getSelectedRow(), patternTable.getSelectedColumn());
-           
-        }
-        else{
-            patternTable.setValueAt(null, patternTable.getSelectedRow(), patternTable.getSelectedColumn());
-        }
-                        
-    }//GEN-LAST:event_patternTableMouseClicked
-
     private void savePatternButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePatternButtonActionPerformed
         
     }//GEN-LAST:event_savePatternButtonActionPerformed
@@ -923,14 +822,15 @@ public class MainFrame extends javax.swing.JFrame {
             Integer duration = tmp.getBeatTime();
             divisionComboBox.setSelectedItem(division.toString());
             timeSpinner.setValue(duration);
-            numberOfBeats.setSelectedItem(beats.toString());
-            patternTable.setModel(new javax.swing.table.DefaultTableModel(5,beats * division ));
+            numberOfBeats.setSelectedItem(beats.toString());            
             currentPattern = tmp;
+            
+            ((RhythmPanel)rhythmPanel).setCurrentPattern(currentPattern); 
+            ((RhythmPanel)rhythmPanel).makeLabels();
+                       
         }catch(IndexOutOfBoundsException ex){
             System.out.println("selectPatternComboBoxActionPerformed " + ex.getMessage());
-        //setRhythmTableModel();
-
-        patternTable.repaint();                    
+        //setRhythmTableModel();                         
 
         }
     }//GEN-LAST:event_selectPatternComboBoxActionPerformed
@@ -1058,14 +958,6 @@ public class MainFrame extends javax.swing.JFrame {
         selectSequencePatternComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(patterns));
     }//GEN-LAST:event_savePatternButtonMouseClicked
 
-    private void patternTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_patternTableKeyPressed
-        
-    }//GEN-LAST:event_patternTableKeyPressed
-
-    private void patternTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_patternTableKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_patternTableKeyReleased
-
     private void selectPatternComboBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectPatternComboBoxMouseClicked
         
     }//GEN-LAST:event_selectPatternComboBoxMouseClicked
@@ -1090,8 +982,8 @@ public class MainFrame extends javax.swing.JFrame {
             PatternSequence tmpseq = rhythmFileWriter.readSequence();
             currentSequence.getPatternList().addAll(tmpseq.getPatternList());
             currentPattern = currentSequence.getPatternAt(0);
-            setRhythmTableModel(currentPattern);             
-            patternTable.repaint();
+            setRhythmTableModel(currentPattern);            
+            
         }
     }//GEN-LAST:event_fileMenuAddActionPerformed
 
@@ -1176,6 +1068,10 @@ public class MainFrame extends javax.swing.JFrame {
         new RhythmUsbSender(currentSequence, progressLabel).start();
         
     }//GEN-LAST:event_testTransferActionPerformed
+
+    private void clearPatternButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearPatternButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearPatternButtonActionPerformed
     
     private void setRhythmTableModel(Pattern tmp){
         if(tmp == null)
@@ -1186,8 +1082,7 @@ public class MainFrame extends javax.swing.JFrame {
         Integer duration = tmp.getBeatTime();
         divisionComboBox.setSelectedItem(division.toString());
         timeSpinner.setValue(duration);
-        numberOfBeats.setSelectedItem(beats.toString());
-        patternTable.setModel(new javax.swing.table.DefaultTableModel(5,beats * division ));
+        numberOfBeats.setSelectedItem(beats.toString());        
         currentPattern = tmp;       
        
     }   
@@ -1203,17 +1098,14 @@ public class MainFrame extends javax.swing.JFrame {
             division = 1;
             divisionComboBox.setSelectedIndex(0);
         }
-       int cells = cols * 5;   // all table cells 
-       patternTable.setModel(new javax.swing.table.DefaultTableModel(5,cols ));
-       rhythmPanel.removeAll();
-       rhythmPanel.setLayout(new java.awt.GridLayout(5, cols)); 
-       ((RhythmPanel)rhythmPanel).makeLabels(beats,division); 
-       revalidate();
+       int cells = cols * 5;   // all table cells
        currentPattern = new Pattern(cells);
        currentPattern.setBeats(beats);
        currentPattern.setDivision(division);
        currentPattern.setBeatTime(beatTime);
-       
+       ((RhythmPanel)rhythmPanel).setCurrentPattern(currentPattern);
+       ((RhythmPanel)rhythmPanel).makeLabels();
+              
     }
     /**
      * @param args the command line arguments
@@ -1268,6 +1160,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel bassGuitarLabel;
     private javax.swing.JLabel beatLabel;
     private javax.swing.JMenuItem choosePattern;
+    private javax.swing.JButton clearPatternButton;
     private javax.swing.JComboBox<String> divisionComboBox;
     private javax.swing.JLabel drumPatternLabel;
     private javax.swing.JMenu editMenu;
@@ -1290,8 +1183,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel octaveLabel;
     private javax.swing.JComboBox<String> octaveSelectComboBox;
     private javax.swing.JSeparator paneSeparator;
-    private javax.swing.JScrollPane patternScrollPane;
-    private javax.swing.JTable patternTable;
+    private javax.swing.JPanel patternGroupPanel;
     private javax.swing.JButton playPatternButton;
     private javax.swing.JButton playSequenceButton;
     private javax.swing.JLabel progressLabel;

@@ -6,8 +6,6 @@
 package rhythm;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
@@ -15,7 +13,7 @@ import static javax.swing.BorderFactory.createCompoundBorder;
 import javax.swing.JLabel;
 import model.MidiEvent;
 import model.MidiInstrument;
-import static rhythm.MainFrame.currentPattern;
+import model.Pattern;
 
 /**
  *
@@ -23,23 +21,15 @@ import static rhythm.MainFrame.currentPattern;
  */
 public class RhythmPanel extends javax.swing.JPanel {
     private final int rows = 5;
-    private int beats;
-    private int resolution;
     private int cells;
     private int cols;
     private MidiEvent currentEvent;
     private int instrumentIndex;  // index in combobox
     private int currentNoteIndex;        // index in combobox
     private int currentOctaveIndex;      // index in combobox
+    private Pattern pat;
    
-    public void setBeats(int beats) {
-        this.beats = beats;
-    }
-
-    public void setResolution(int resolution) {
-        this.resolution = resolution;
-    }
-
+    
     public void setInstrumentIndex(int instrumentIndex) {
         this.instrumentIndex = instrumentIndex;
     }
@@ -59,17 +49,20 @@ public class RhythmPanel extends javax.swing.JPanel {
         
     }
     
-    public void makeLabels(int bts,int res){
-        beats = bts;
-        resolution = res;
-        cols = beats * resolution;
-        cells = cols * rows; 
-        
-        
+    public void setCurrentPattern(Pattern pat){
+        this.pat = pat;
+    }    
+    // create new grid according to number of beats and resolution
+    public void makeLabels(){
+        cols = pat.getBeats() * pat.getDivision();
+        cells = cols * rows;       
+        this.removeAll();
+        this.setLayout(new java.awt.GridLayout(5, cols)); 
         for (int row = 0; row < rows; row++) {
             for (int eventIndex = row, col = 0; eventIndex < cells && col < cols; eventIndex = eventIndex + 5, col++) {
                 JLabel label = new JLabel("");
-                label.setSize(30, 60);
+                if(pat.getEventAt(eventIndex).getMidiInstrument() != MidiInstrument.NONE)
+                    label.setBackground(pat.getEventAt(eventIndex).getMidiInstrument().getBackground());
                 label.addMouseListener(new RhythmPanelMouseListener());
                 label.setName(Integer.toString(eventIndex)); 
                 label.setOpaque(true);
@@ -77,7 +70,9 @@ public class RhythmPanel extends javax.swing.JPanel {
                 this.add(label);                
             }
         }
-        
+       
+        getParent().revalidate();
+        getParent().repaint(); 
     }
     
     private void makeBorder(JLabel label, int row, int col) {
@@ -87,7 +82,7 @@ public class RhythmPanel extends javax.swing.JPanel {
             
             if (col == 0) {
                 // Top left corner, draw all sides
-                if((col + 1) % resolution == 0)
+                if((col + 1) % pat.getDivision() == 0)
                     label.setBorder(createCompoundBorder(
                         javax.swing.BorderFactory.createMatteBorder(0, 1, 0, 1, Color.RED), 
                         javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 0, Color.BLACK)
@@ -99,7 +94,7 @@ public class RhythmPanel extends javax.swing.JPanel {
                     ));
             } else {
                 // Top edge, draw all sides except left edge
-                if(( col + 1 ) % resolution == 0)
+                if(( col + 1 ) % pat.getDivision() == 0)
                     label.setBorder(createCompoundBorder(
                     javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 0, Color.BLACK), 
                     javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, Color.RED)
@@ -114,7 +109,7 @@ public class RhythmPanel extends javax.swing.JPanel {
         } else {
             if (col == 0) {
                 // Left-hand edge, draw all sides except top
-                if((col + 1) % resolution == 0)
+                if((col + 1) % pat.getDivision() == 0)
                     label.setBorder(createCompoundBorder(
                         javax.swing.BorderFactory.createMatteBorder(0, 1, 0, 1, Color.RED), 
                         javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)
@@ -127,7 +122,7 @@ public class RhythmPanel extends javax.swing.JPanel {
 
             } else {
                 // Neither top edge nor left edge, skip both top and left lines
-                if(( col + 1 ) % resolution == 0)
+                if(( col + 1 ) % pat.getDivision() == 0)
                     label.setBorder(createCompoundBorder(
                     javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK), 
                     javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, Color.RED)
@@ -190,14 +185,14 @@ public class RhythmPanel extends javax.swing.JPanel {
                         }
             }
             
-            assert(currentPattern.hasEvents());
-            MidiInstrument instrument = currentPattern.getEventAt(eventIndex).getMidiInstrument();
+            assert(pat.hasEvents());
+            MidiInstrument instrument = pat.getEventAt(eventIndex).getMidiInstrument();
             if(instrument == MidiInstrument.NONE){  // empty event ? set one with current instrument
-                currentPattern.addEvent(eventIndex, currentEvent);
+                pat.addEvent(eventIndex, currentEvent);
                 label.setBackground(currentEvent.getMidiInstrument().getBackground());
             }
             else{
-                currentPattern.addEvent(eventIndex, new MidiEvent());
+                pat.addEvent(eventIndex, new MidiEvent());
                 label.setBackground(getParent().getBackground());
             }
         }
