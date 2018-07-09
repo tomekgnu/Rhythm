@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -117,12 +118,13 @@ public class FileReaderWriter {
 		} 
     }
     
-    
-    public void writeSequence(PatternSequence seq){        
+   
+    public void writtePatterns(List<Pattern> patList,PatternSequence seq){        
         try {
             String SDFile = rhythmFile.getAbsolutePath().replace(".bin", ".rth");
             fos = new FileOutputStream(SDFile);
             oos = new ObjectOutputStream(new FileOutputStream(rhythmFile));
+            oos.writeObject(patList);
             oos.writeObject(seq);
             
         } catch (FileNotFoundException ex) {
@@ -152,11 +154,7 @@ public class FileReaderWriter {
         }
     }
     
-    public PatternSequence readSequence(String filename){
-        
-        return new PatternSequence();
-    }
-
+    
     private int getUnsignedInt(int one,int two,int three,int four){
        one &= 0x000000ff; 
        two &= 0x000000ff;
@@ -166,12 +164,16 @@ public class FileReaderWriter {
        return one | (two << 8) | (three << 16) | (four << 24);
     }
     
-    PatternSequence readSequence() { 
-        
+    
+       
+    Object[] readPatterns() { 
+        List<Pattern> lst = new ArrayList<Pattern>();
+        PatternSequence seq = new PatternSequence();
         try {
             
             ois = new ObjectInputStream(new FileInputStream(rhythmFile));
-            return (PatternSequence) ois.readObject();
+            lst = (List<Pattern>)ois.readObject();
+            seq = (PatternSequence) ois.readObject();
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,8 +184,10 @@ public class FileReaderWriter {
         }
             
           
-        return new PatternSequence();
+        return new Object[]{lst,seq};
        
     }    
+
+    
     
 }
