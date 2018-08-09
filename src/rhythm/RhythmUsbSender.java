@@ -29,17 +29,19 @@ public class RhythmUsbSender extends Thread{
         this.sequence = seq;
         this.progLabel = lab;
     }
-    private void makeMainHeader(int numPats,int numBytes, int maxResol){
+    
+    
+    private void makeMainHeader(int numBytes,int numPats, int maxResol){
       
-        buffer.append(new Integer(numPats).byteValue());
-        buffer.append(new Integer(numPats >> 8).byteValue());
-        buffer.append(new Integer(numPats >> 16).byteValue());
-        buffer.append(new Integer(numPats >> 24).byteValue());
-        
         buffer.append(new Integer(numBytes).byteValue());
         buffer.append(new Integer(numBytes >> 8).byteValue());
         buffer.append(new Integer(numBytes >> 16).byteValue());
         buffer.append(new Integer(numBytes >> 24).byteValue());
+        
+        buffer.append(new Integer(numPats).byteValue());
+        buffer.append(new Integer(numPats >> 8).byteValue());
+        buffer.append(new Integer(numPats >> 16).byteValue());
+        buffer.append(new Integer(numPats >> 24).byteValue()); 
         
         buffer.append(new Integer(maxResol).byteValue());
         buffer.append(new Integer(maxResol >> 8).byteValue());
@@ -88,19 +90,19 @@ public class RhythmUsbSender extends Thread{
     @Override
     public void run(){
         List<Pattern> patternList = sequence.getPatternList();
+        int byts = sequence.getNumOfBytes() + 12;
         int pats = sequence.getNumOfPats();
-        int byts = sequence.getNumOfBytes();
         int maxr = sequence.getMaxResolution();
-        
-        makeMainHeader(pats, byts, maxr);
+                
+        makeMainHeader(byts, pats, maxr);
         for(Pattern pat:patternList){            
             int repeat = pat.getRepeat();
             while(repeat-- > 0)
                 makePattern(pat);                
         }
         
-        System.out.println(buffer.size());
-        
+        System.out.println(byts + " " + buffer.size());
+   
         Splitter sp = new Splitter(buffer.toArray(),64);
         System.out.println("Chunks: " + sp.getBlockCount());
         int chunks = sp.getBlockCount();      

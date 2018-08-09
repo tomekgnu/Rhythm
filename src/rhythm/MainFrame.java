@@ -741,7 +741,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void playPatternButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playPatternButtonActionPerformed
         if(sequencePlayback != null){
             sequencePlayback.stopExecuting();
-            playSequenceButton.setText("Play sequence");
+            playSequenceButton.setText("Play pattern");
         }
         togglePlayback = !togglePlayback;
         
