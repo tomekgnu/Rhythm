@@ -8,6 +8,7 @@ import com.sun.corba.se.impl.ior.ByteBuffer;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import misc.Splitter;
 import misc.UsbWriter;
@@ -23,13 +24,19 @@ public class RhythmUsbSender extends Thread{
     private ByteBuffer buffer;
     private PatternSequence sequence;
     private JLabel progLabel;
+    private JButton transBut;
+    private boolean executing;
     
-    public RhythmUsbSender(PatternSequence seq,JLabel lab){
+    public RhythmUsbSender(PatternSequence seq,JLabel lab,JButton but){
         this.buffer = new ByteBuffer();
         this.sequence = seq;
         this.progLabel = lab;
+        this.transBut = but;
     }
     
+    public void setExecuting(boolean flag){
+        this.executing = flag;
+    }
     
     private void makeMainHeader(int numBytes,int numPats, int maxResol){
       
@@ -93,7 +100,7 @@ public class RhythmUsbSender extends Thread{
         int byts = sequence.getNumOfBytes() + 12;
         int pats = sequence.getNumOfPats();
         int maxr = sequence.getMaxResolution();
-                
+        executing = true;       
         makeMainHeader(byts, pats, maxr);
         for(Pattern pat:patternList){            
             int repeat = pat.getRepeat();
@@ -111,8 +118,12 @@ public class RhythmUsbSender extends Thread{
         if(chunks > 1){
             for(int i = 0; i < chunks - 1; i++){
                 byte[] range = sp.getChunk(i);                 
-                UsbWriter.sendBytes(range);   // usb                 
-                
+                if(executing == true)
+                    UsbWriter.sendBytes(range);   // usb                 
+                else{
+                    UsbWriter.sendBytes("STOP".getBytes());
+                    return;
+                }
                 try {
                     progLabel.setText(Integer.toString(i + 1) + "/" + chunks);
                     Thread.sleep(100);
@@ -124,7 +135,8 @@ public class RhythmUsbSender extends Thread{
         byte[] last = sp.getLastChunk();
         UsbWriter.sendBytes(last);   // usb  
         progLabel.setText(Integer.toString(chunks) + "/" + chunks);
-        
+        executing = false;
+        transBut.setText("Send via USB");
     }
     
 }

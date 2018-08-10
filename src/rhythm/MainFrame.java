@@ -48,7 +48,7 @@ public class MainFrame extends javax.swing.JFrame {
     private Playback patternPlayback;
     private Playback sequencePlayback;
     private FileReaderWriter rhythmFileRW;
-    
+    private RhythmUsbSender sender;
     /**
      * Creates new form MainFrame
      */
@@ -96,7 +96,7 @@ public class MainFrame extends javax.swing.JFrame {
         selectSequencePatternComboBox = new JPatternComboBox();
         repeatPatternSpinner = new javax.swing.JSpinner();
         setPatternButton = new javax.swing.JButton();
-        testTransfer = new javax.swing.JButton();
+        usbTransferButton = new javax.swing.JButton();
         progressLabel = new javax.swing.JLabel();
         rhythmPanel = new RhythmPanel();
         patternGroupPanel = new javax.swing.JPanel();
@@ -278,10 +278,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        testTransfer.setText("Send via USB");
-        testTransfer.addActionListener(new java.awt.event.ActionListener() {
+        usbTransferButton.setText("Send via USB");
+        usbTransferButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                testTransferActionPerformed(evt);
+                usbTransferButtonActionPerformed(evt);
             }
         });
 
@@ -587,7 +587,7 @@ public class MainFrame extends javax.swing.JFrame {
                                             .addComponent(progressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createSequentialGroup()
                                             .addGap(18, 18, 18)
-                                            .addComponent(testTransfer, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(usbTransferButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createSequentialGroup()
                                             .addGap(39, 39, 39)
                                             .addComponent(selectSequencePatternComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -625,7 +625,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(playSequenceButton)
                     .addComponent(saveSequenceButton)
                     .addComponent(saveFileButton)
-                    .addComponent(testTransfer))
+                    .addComponent(usbTransferButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -1067,10 +1067,20 @@ public class MainFrame extends javax.swing.JFrame {
         ((JSequenceTable)sequenceTable).clearPattern();
     }//GEN-LAST:event_removePatternActionPerformed
 
-    private void testTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testTransferActionPerformed
-        new RhythmUsbSender(currentSequence, progressLabel).start();
+    private void usbTransferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usbTransferButtonActionPerformed
+        if(currentSequence.getNumOfBytes() == 0)
+            return;
+        if(usbTransferButton.getText().equals("Send via USB")){
+            usbTransferButton.setText("Stop");
+            sender = new RhythmUsbSender(currentSequence, progressLabel,usbTransferButton);
+            sender.start();
+        }
+        else{
+            usbTransferButton.setText("Send via USB");
+            sender.setExecuting(false);
+        }        
         
-    }//GEN-LAST:event_testTransferActionPerformed
+    }//GEN-LAST:event_usbTransferButtonActionPerformed
 
     private void clearPatternButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearPatternButtonActionPerformed
         int events = currentPattern.getEventList().size();
@@ -1244,9 +1254,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane sequenceScrollPane;
     private javax.swing.JTable sequenceTable;
     private javax.swing.JButton setPatternButton;
-    private javax.swing.JButton testTransfer;
     private javax.swing.JLabel timeLabel;
     private javax.swing.JSpinner timeSpinner;
+    private javax.swing.JButton usbTransferButton;
     // End of variables declaration//GEN-END:variables
 
 class CustomCellRenderer extends JLabel implements TableCellRenderer {

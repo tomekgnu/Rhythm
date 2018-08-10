@@ -166,7 +166,7 @@
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="testTransfer" min="-2" pref="127" max="-2" attributes="0"/>
+                                          <Component id="usbTransferButton" min="-2" pref="127" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
@@ -216,7 +216,7 @@
                   <Component id="playSequenceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="saveSequenceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="saveFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="testTransfer" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="usbTransferButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -396,12 +396,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="setPatternButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="testTransfer">
+    <Component class="javax.swing.JButton" name="usbTransferButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Send via USB"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="testTransferActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usbTransferButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="progressLabel">
