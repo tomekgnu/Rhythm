@@ -19,12 +19,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import static javax.swing.SwingConstants.CENTER;
@@ -81,6 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
         removePattern = new javax.swing.JMenuItem();
         insertOneBefore = new javax.swing.JMenuItem();
         insertOneAfter = new javax.swing.JMenuItem();
+        clearSequence = new javax.swing.JMenuItem();
         drumPatternLabel = new javax.swing.JLabel();
         paneSeparator = new javax.swing.JSeparator();
         sequenceScrollPane = new javax.swing.JScrollPane();
@@ -165,6 +168,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         insertPatternPopup.add(insertOneAfter);
+
+        clearSequence.setText("Clear sequence");
+        clearSequence.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearSequenceActionPerformed(evt);
+            }
+        });
+        insertPatternPopup.add(clearSequence);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -539,6 +550,11 @@ public class MainFrame extends javax.swing.JFrame {
         fileMenu.add(fileMenuClose);
 
         fileMenuSave.setText("Save rhythm");
+        fileMenuSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileMenuSaveActionPerformed(evt);
+            }
+        });
         fileMenu.add(fileMenuSave);
 
         menuBar.add(fileMenu);
@@ -648,8 +664,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void fileMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuOpenActionPerformed
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        "RTH files", "bin");
-        chooser.setFileFilter(filter);
+        "Rhythm bin files", "bin");
+        chooser.addChoosableFileFilter(filter);
         int returnVal = chooser.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File currentFile = chooser.getSelectedFile();
@@ -762,7 +778,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void playSequenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playSequenceButtonActionPerformed
         if(patternPlayback != null){
             patternPlayback.stopExecuting();
-            playPatternButton.setText("Play sequence");
+            playSequenceButton.setText("Play sequence");
         }
            
         togglePlayback = !togglePlayback;
@@ -1090,6 +1106,26 @@ public class MainFrame extends javax.swing.JFrame {
         ((RhythmPanel)rhythmPanel).setCurrentPattern(currentPattern);
        ((RhythmPanel)rhythmPanel).makeLabels();
     }//GEN-LAST:event_clearPatternButtonActionPerformed
+
+    private void clearSequenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearSequenceActionPerformed
+        currentSequence = new PatternSequence();
+    }//GEN-LAST:event_clearSequenceActionPerformed
+
+    private void fileMenuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuSaveActionPerformed
+        JFrame parentFrame = new JFrame();
+ 
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save"); 
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Rhythm bin files", "bin"));
+        int userSelection = fileChooser.showSaveDialog(parentFrame);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+            rhythmFileRW.setFile(fileToSave);
+            rhythmFileRW.writtePatterns(patternList,currentSequence);
+}
+    }//GEN-LAST:event_fileMenuSaveActionPerformed
     
         
     private void setRhythmTableModel(Pattern tmp){
@@ -1115,12 +1151,12 @@ public class MainFrame extends javax.swing.JFrame {
         int beats = Integer.parseInt(numberOfBeats.getSelectedItem().toString());
         int beatTime = Integer.parseInt(timeSpinner.getValue().toString());
         int cols = division * beats;        
-        if(cols > 120){
-            cols = 120;
-            beats = 120;
-            division = 1;
-            divisionComboBox.setSelectedIndex(0);
-        }
+//        if(cols > 120){
+//            cols = 120;
+//            beats = 120;
+//            division = 1;
+//            divisionComboBox.setSelectedIndex(0);
+//        }
        int cells = cols * 5;   // all table cells
        Pattern pat = new Pattern(cells);
        int sourceEvents = currentPattern.getEventList().size();
@@ -1213,6 +1249,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel beatLabel;
     private javax.swing.JMenuItem choosePattern;
     private javax.swing.JButton clearPatternButton;
+    private javax.swing.JMenuItem clearSequence;
     private javax.swing.JComboBox<String> divisionComboBox;
     private javax.swing.JLabel drumPatternLabel;
     private javax.swing.JMenu editMenu;

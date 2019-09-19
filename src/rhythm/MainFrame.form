@@ -45,6 +45,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="insertOneAfterActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="clearSequence">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Clear sequence"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearSequenceActionPerformed"/>
+          </Events>
+        </MenuItem>
       </SubComponents>
     </Container>
     <Menu class="javax.swing.JMenuBar" name="menuBar">
@@ -82,6 +90,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save rhythm"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fileMenuSaveActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
