@@ -13,7 +13,11 @@ import java.util.logging.Logger;
 import model.MidiInstrument;
 import misc.UsbWriter;
 
+
+import javax.sound.midi.*;
+
 /**
+ * 
  *
  * @author Tomek
  */
@@ -31,8 +35,35 @@ public class Playback extends Thread {
     public static final int SEQUENCE = 1;
     public static final int SONG = 2;
     
+    
+    // force software MIDI synth, skip hardware 
+    private static final boolean PLAYSOFTWARE = true;
+    private Synthesizer syn = null ;
+    private MidiChannel[] mc = null; 
+    private   Instrument[]  instr= null; 
+
+
+    
     public Playback(int p){
         playback = p;
+        
+        if(PLAYSOFTWARE)
+        {
+            try
+            {    
+               syn  = MidiSystem.getSynthesizer();    
+               syn.open();
+               
+               mc = syn.getChannels();
+               instr = syn.getDefaultSoundbank().getInstruments();
+               mc[5].programChange(instr[36].getPatch().getProgram());
+            }            
+            catch(Exception ex)
+            {
+               
+            }
+        }
+        
     }
     
     @Override
@@ -85,10 +116,43 @@ public class Playback extends Thread {
                     i++;
                     if(nextEvent % 5 == 0){
                         i = 0;
-                        usbResult = UsbWriter.sendBytes(sendEvents);
+                        
+                        
+                        /* TEST SOFTWARE MDI PLAYER */
+                        if(PLAYSOFTWARE)
+                        {
+                            System.out.println("Playing using sound card from your pc :) ");
+                            
+                            
+                         
+                            for (int j = 0; j < sendEvents.length; j++) {
+                                
+                                if(j<=3)
+                                {
+                                    System.out.println("Playing element  " + sendEvents[j]);                                 
+                                    mc[9].noteOn(sendEvents[j],1000); //(noteNumber, velocity)
+                                }
+                                else if (sendEvents[j]!=0)
+                                {
+                                    System.out.println("Playing bass element  " + sendEvents[j]);   
+                                    mc[5].noteOn(sendEvents[j],1000); //(noteNumber, velocity)
+                                
+                                    //mc[5].noteOff(sendEvents[j],1000); //(noteNumber, velocity)
+                                }
+                                
+                                
+                             }                            
+                        }                  
+                        else
+                        {                              
+                            usbResult = UsbWriter.sendBytes(sendEvents);
+                        }
+                                                                       
                         Thread.sleep(subBeatTime);
+                        mc[5].allNotesOff();
+                        
                         if(execute == false)
-                            break;
+                            break;                           
                     }               
                 
                 }
